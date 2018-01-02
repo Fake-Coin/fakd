@@ -26,6 +26,8 @@ var (
 	// have for the main network.
 	mainPowLimit, _ = new(big.Int).SetString("0x0fffff000000000000000000000000000000000000000000000000000000", 0)
 
+	fakPowLimit, _ = new(big.Int).SetString("0x000010024c000000000000000000000000000000000000000000000000000000", 0)
+
 	// regressionPowLimit is the highest proof of work value a Litecoin block
 	// can have for the regression test network.  It is the value 2^255 - 1.
 	regressionPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 255), bigOne)
@@ -228,98 +230,76 @@ type Params struct {
 // MainNetParams defines the network parameters for the main Litecoin network.
 var MainNetParams = Params{
 	Name:        "mainnet",
-	Net:         wire.MainNet,
+	Net:         wire.BitcoinNet(0xdbb6c0fb),
 	DefaultPort: "9333",
+
 	DNSSeeds: []DNSSeed{
-		{"seed-a.litecoin.loshan.co.uk", true},
-		{"dnsseed.thrasher.io", true},
-		{"dnsseed.litecointools.com", false},
-		{"dnsseed.litecoinpool.org", false},
-		{"dnsseed.koin-project.com", false},
+		{"18.217.119.225", false},
+		{"18.217.151.127", false},
 	},
 
-	// Chain parameters
-	GenesisBlock:             &genesisBlock,
-	GenesisHash:              &genesisHash,
-	PowLimit:                 mainPowLimit,
-	PowLimitBits:             504365055,
-	BIP0034Height:            710000,
-	BIP0065Height:            918684,
-	BIP0066Height:            811879,
+	// GenesisBlock *wire.MsgBlock
+	// GenesisHash *chainhash.Hash
+	GenesisBlock: &genesisBlock,
+	GenesisHash:  &genesisHash,
+
+	PowLimit: fakPowLimit,
+	// PowLimitBits: 0x1E0FFFFF,
+
+	BIP0034Height: 710000,
+	BIP0065Height: 918684,
+	BIP0066Height: 811879,
+
 	CoinbaseMaturity:         100,
 	SubsidyReductionInterval: 840000,
-	TargetTimespan:           (time.Hour * 24 * 3) + (time.Hour * 12), // 3.5 days
-	TargetTimePerBlock:       (time.Minute * 2) + (time.Second * 30),  // 2.5 minutes
-	RetargetAdjustmentFactor: 4,                                       // 25% less, 400% more
-	ReduceMinDifficulty:      false,
-	MinDiffReductionTime:     0,
-	GenerateSupported:        false,
+	TargetTimespan:           302400 * time.Second,
+	TargetTimePerBlock:       150 * time.Second,
+	RetargetAdjustmentFactor: 4,
 
-	// Checkpoints ordered from oldest to newest.
+	// GenerateSupported bool
 	Checkpoints: []Checkpoint{
-		{1500, newHashFromStr("841a2965955dd288cfa707a755d05a54e45f8bd476835ec9af4402a2b59a2967")},
-		{4032, newHashFromStr("9ce90e427198fc0ef05e5905ce3503725b80e26afd35a987965fd7e3d9cf0846")},
-		{8064, newHashFromStr("eb984353fc5190f210651f150c40b8a4bab9eeeff0b729fcb3987da694430d70")},
-		{16128, newHashFromStr("602edf1859b7f9a6af809f1d9b0e6cb66fdc1d4d9dcd7a4bec03e12a1ccd153d")},
-		{23420, newHashFromStr("d80fdf9ca81afd0bd2b2a90ac3a9fe547da58f2530ec874e978fce0b5101b507")},
-		{50000, newHashFromStr("69dc37eb029b68f075a5012dcc0419c127672adb4f3a32882b2b3e71d07a20a6")},
-		{80000, newHashFromStr("4fcb7c02f676a300503f49c764a89955a8f920b46a8cbecb4867182ecdb2e90a")},
-		{120000, newHashFromStr("bd9d26924f05f6daa7f0155f32828ec89e8e29cee9e7121b026a7a3552ac6131")},
-		{161500, newHashFromStr("dbe89880474f4bb4f75c227c77ba1cdc024991123b28b8418dbbf7798471ff43")},
-		{179620, newHashFromStr("2ad9c65c990ac00426d18e446e0fd7be2ffa69e9a7dcb28358a50b2b78b9f709")},
-		{240000, newHashFromStr("7140d1c4b4c2157ca217ee7636f24c9c73db39c4590c4e6eab2e3ea1555088aa")},
-		{383640, newHashFromStr("2b6809f094a9215bafc65eb3f110a35127a34be94b7d0590a096c3f126c6f364")},
-		{409004, newHashFromStr("487518d663d9f1fa08611d9395ad74d982b667fbdc0e77e9cf39b4f1355908a3")},
-		{456000, newHashFromStr("bf34f71cc6366cd487930d06be22f897e34ca6a40501ac7d401be32456372004")},
-		{638902, newHashFromStr("15238656e8ec63d28de29a8c75fcf3a5819afc953dcd9cc45cecc53baec74f38")},
-		{721000, newHashFromStr("198a7b4de1df9478e2463bd99d75b714eab235a2e63e741641dc8a759a9840e5")},
+		{1, newHashFromStr("8852898d57539ff7e065b16149d2097a37b41617b963d6002a7a00ecd1eeadc8")},
+		{8750, newHashFromStr("7e2400eb281e7577d83d6f5c30e23caaea396650a697fc23f3d7e5d5151d9aa5")},
+		{10400, newHashFromStr("80ccf07f265be53dff8d881243bd0bd48deb388e4fe0c9273632da055a9ba216")},
 	},
+	RuleChangeActivationThreshold: 6048,
+	MinerConfirmationWindow:       8064,
 
-	// Consensus rule change deployments.
-	//
-	// The miner confirmation window is defined as:
-	//   target proof of work timespan / target proof of work spacing
-	RuleChangeActivationThreshold: 6048, // 75% of MinerConfirmationWindow
-	MinerConfirmationWindow:       8064, //
 	Deployments: [DefinedDeployments]ConsensusDeployment{
 		DeploymentTestDummy: {
 			BitNumber:  28,
-			StartTime:  1199145601, // January 1, 2008 UTC
-			ExpireTime: 1230767999, // December 31, 2008 UTC
+			StartTime:  0,             // January 1, 2008 UTC
+			ExpireTime: math.MaxInt64, // December 31, 2008 UTC
 		},
 		DeploymentCSV: {
 			BitNumber:  0,
-			StartTime:  1485561600, // January 28, 2017 UTC
-			ExpireTime: 1517356801, // January 31st, 2018 UTC
+			StartTime:  0,             // January 28, 2017 UTC
+			ExpireTime: math.MaxInt64, // January 31st, 2018 UTC
 		},
 		DeploymentSegwit: {
 			BitNumber:  1,
-			StartTime:  1485561600, // January 28, 2017 UTC
-			ExpireTime: 1517356801, // January 31st, 2018 UTC.
+			StartTime:  0,             // January 28, 2017 UTC
+			ExpireTime: math.MaxInt64, // January 31st, 2018 UTC.
 		},
 	},
 
-	// Mempool parameters
 	RelayNonStdTxs: false,
 
-	// Human-readable part for Bech32 encoded segwit addresses, as defined in
-	// BIP 173.
-	Bech32HRPSegwit: "ltc", // always ltc for main net
+	PubKeyHashAddrID: 0x00, // starts with m or n
 
-	// Address encoding magics
-	PubKeyHashAddrID:        0x30, // starts with L
-	ScriptHashAddrID:        0x50, // starts with M
-	PrivateKeyID:            0xB0, // starts with 6 (uncompressed) or T (compressed)
+	ScriptHashAddrID: 0x7F, // starts with t
+
+	PrivateKeyID:            0x80, // starts with 5 (uncompressed) or K (compressed)
 	WitnessPubKeyHashAddrID: 0x06, // starts with p2
 	WitnessScriptHashAddrID: 0x0A, // starts with 7Xh
 
 	// BIP32 hierarchical deterministic extended key magics
-	HDPrivateKeyID: [4]byte{0x04, 0x88, 0xad, 0xe4}, // starts with xprv
-	HDPublicKeyID:  [4]byte{0x04, 0x88, 0xb2, 0x1e}, // starts with xpub
+	HDPrivateKeyID: [4]byte{0x04, 0x35, 0x83, 0x94}, // starts with tprv
+	HDPublicKeyID:  [4]byte{0x04, 0x35, 0x87, 0xcf}, // starts with tpub
 
 	// BIP44 coin type used in the hierarchical deterministic path for
 	// address generation.
-	HDCoinType: 2,
+	HDCoinType: 1,
 }
 
 // RegressionNetParams defines the network parameters for the regression test
@@ -690,7 +670,4 @@ func newHashFromStr(hexStr string) *chainhash.Hash {
 func init() {
 	// Register all default networks when the package is initialized.
 	mustRegister(&MainNetParams)
-	mustRegister(&TestNet4Params)
-	mustRegister(&RegressionNetParams)
-	mustRegister(&SimNetParams)
 }

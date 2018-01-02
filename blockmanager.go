@@ -1024,9 +1024,11 @@ func (b *blockManager) handleInvMsg(imsg *invMsg) {
 			// peers, as after segwit activation we only want to
 			// download from peers that can provide us full witness
 			// data for blocks.
+			/* TODO(fakecoin): is this ok?
 			if !peer.IsWitnessEnabled() && iv.Type == wire.InvTypeBlock {
 				continue
 			}
+			*/
 
 			// Add it to the request queue.
 			state.requestQueue = append(state.requestQueue, iv)
