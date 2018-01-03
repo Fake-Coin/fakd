@@ -8,9 +8,9 @@ import (
 	"encoding/hex"
 	"testing"
 
-	"github.com/ltcsuite/ltcd/blockchain"
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/wire"
+	"github.com/NeilVallon/fakd/blockchain"
+	"github.com/NeilVallon/fakd/chaincfg/chainhash"
+	"github.com/NeilVallon/fakd/wire"
 	"github.com/ltcsuite/ltcutil"
 )
 

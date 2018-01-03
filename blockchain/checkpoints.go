@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/txscript"
+	"github.com/NeilVallon/fakd/chaincfg"
+	"github.com/NeilVallon/fakd/chaincfg/chainhash"
+	"github.com/NeilVallon/fakd/txscript"
 	"github.com/ltcsuite/ltcutil"
 )
 

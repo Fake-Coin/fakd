@@ -9,7 +9,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/ltcsuite/ltcd/btcjson"
+	"github.com/NeilVallon/fakd/btcjson"
 )
 
 // TestBtcdExtCustomResults ensures any results that have custom marshalling

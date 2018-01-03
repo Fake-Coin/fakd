@@ -1,4 +1,4 @@
-package: github.com/ltcsuite/ltcd
+package: github.com/NeilVallon/fakd
 import:
 - package: github.com/btcsuite/btclog
 - package: github.com/ltcsuite/ltcutil

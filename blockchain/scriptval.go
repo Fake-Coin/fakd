@@ -10,8 +10,8 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/ltcsuite/ltcd/txscript"
-	"github.com/ltcsuite/ltcd/wire"
+	"github.com/NeilVallon/fakd/txscript"
+	"github.com/NeilVallon/fakd/wire"
 	"github.com/ltcsuite/ltcutil"
 )
 

@@ -10,10 +10,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/database"
-	_ "github.com/ltcsuite/ltcd/database/ffldb"
-	"github.com/ltcsuite/ltcd/wire"
+	"github.com/NeilVallon/fakd/chaincfg"
+	"github.com/NeilVallon/fakd/database"
+	_ "github.com/NeilVallon/fakd/database/ffldb"
+	"github.com/NeilVallon/fakd/wire"
 	"github.com/ltcsuite/ltcutil"
 )
 

@@ -9,9 +9,9 @@ import (
 	"net"
 	"time"
 
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/peer"
-	"github.com/ltcsuite/ltcd/wire"
+	"github.com/NeilVallon/fakd/chaincfg"
+	"github.com/NeilVallon/fakd/peer"
+	"github.com/NeilVallon/fakd/wire"
 )
 
 // mockRemotePeer creates a basic inbound peer listening on the simnet port for
