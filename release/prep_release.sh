@@ -22,7 +22,7 @@
 #   - Updates project changes file with release notes
 #
 
-PROJECT=ltcd
+PROJECT=fakd
 PROJECT_UC=$(echo $PROJECT | tr '[:lower:]' '[:upper:]')
 SCRIPT=$(basename $0)
 VERFILE=../version.go

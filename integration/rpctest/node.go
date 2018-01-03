@@ -50,7 +50,7 @@ func newConfig(prefix, certFile, keyFile string, extra []string) (*nodeConfig, e
 		extra:     extra,
 		prefix:    prefix,
 
-		exe:      "ltcd",
+		exe:      "fakd",
 		endpoint: "ws",
 		certFile: certFile,
 		keyFile:  keyFile,

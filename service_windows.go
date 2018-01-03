@@ -17,7 +17,7 @@ import (
 
 const (
 	// svcName is the name of ltcd service.
-	svcName = "ltcdsvc"
+	svcName = "fakdsvc"
 
 	// svcDisplayName is the service name that will be shown in the windows
 	// services list.  Not the svcName is the "real" name which is used

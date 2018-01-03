@@ -18,7 +18,7 @@ import (
 )
 
 var (
-	ltcdHomeDir     = ltcutil.AppDataDir("ltcd", false)
+	ltcdHomeDir     = ltcutil.AppDataDir("fakd", false)
 	knownDbTypes    = database.SupportedDrivers()
 	activeNetParams = &chaincfg.MainNetParams
 

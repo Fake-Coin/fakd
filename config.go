@@ -27,17 +27,17 @@ import (
 	"github.com/NeilVallon/fakd/database"
 	_ "github.com/NeilVallon/fakd/database/ffldb"
 	"github.com/NeilVallon/fakd/mempool"
-	"github.com/ltcsuite/ltcutil"
 	"github.com/btcsuite/go-socks/socks"
 	flags "github.com/jessevdk/go-flags"
+	"github.com/ltcsuite/ltcutil"
 )
 
 const (
-	defaultConfigFilename        = "ltcd.conf"
+	defaultConfigFilename        = "fakd.conf"
 	defaultDataDirname           = "data"
 	defaultLogLevel              = "info"
 	defaultLogDirname            = "logs"
-	defaultLogFilename           = "ltcd.log"
+	defaultLogFilename           = "fakd.log"
 	defaultMaxPeers              = 125
 	defaultBanDuration           = time.Hour * 24
 	defaultBanThreshold          = 100
@@ -59,13 +59,13 @@ const (
 	defaultMaxOrphanTransactions = 100
 	defaultMaxOrphanTxSize       = 100000
 	defaultSigCacheMaxSize       = 100000
-	sampleConfigFilename         = "sample-ltcd.conf"
+	sampleConfigFilename         = "sample-fakd.conf"
 	defaultTxIndex               = false
 	defaultAddrIndex             = false
 )
 
 var (
-	defaultHomeDir     = ltcutil.AppDataDir("ltcd", false)
+	defaultHomeDir     = ltcutil.AppDataDir("fakd", false)
 	defaultConfigFile  = filepath.Join(defaultHomeDir, defaultConfigFilename)
 	defaultDataDir     = filepath.Join(defaultHomeDir, defaultDataDirname)
 	knownDbTypes       = database.SupportedDrivers()

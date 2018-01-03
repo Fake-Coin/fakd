@@ -35,13 +35,13 @@ func oldBtcdHomeDir() string {
 	// Search for Windows APPDATA first.  This won't exist on POSIX OSes.
 	appData := os.Getenv("APPDATA")
 	if appData != "" {
-		return filepath.Join(appData, "ltcd")
+		return filepath.Join(appData, "fakd")
 	}
 
 	// Fall back to standard HOME directory that works for most POSIX OSes.
 	home := os.Getenv("HOME")
 	if home != "" {
-		return filepath.Join(home, ".ltcd")
+		return filepath.Join(home, ".fakd")
 	}
 
 	// In the worst case, use the current directory.
@@ -96,9 +96,9 @@ func upgradeDBPaths() error {
 	// respective networks.  Check for the old database and update it to the
 	// new path introduced with version 0.2.0 accordingly.
 	oldDbRoot := filepath.Join(oldBtcdHomeDir(), "db")
-	upgradeDBPathNet(filepath.Join(oldDbRoot, "ltcd.db"), "mainnet")
-	upgradeDBPathNet(filepath.Join(oldDbRoot, "ltcd_testnet.db"), "testnet")
-	upgradeDBPathNet(filepath.Join(oldDbRoot, "ltcd_regtest.db"), "regtest")
+	upgradeDBPathNet(filepath.Join(oldDbRoot, "fakd.db"), "mainnet")
+	upgradeDBPathNet(filepath.Join(oldDbRoot, "fakd_testnet.db"), "testnet")
+	upgradeDBPathNet(filepath.Join(oldDbRoot, "fakd_regtest.db"), "regtest")
 
 	// Remove the old db directory.
 	return os.RemoveAll(oldDbRoot)

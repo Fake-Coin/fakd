@@ -32,7 +32,7 @@ func main() {
 	}
 
 	// Connect to local ltcd RPC server using websockets.
-	ltcdHomeDir := ltcutil.AppDataDir("ltcd", false)
+	ltcdHomeDir := ltcutil.AppDataDir("fakd", false)
 	certs, err := ioutil.ReadFile(filepath.Join(ltcdHomeDir, "rpc.cert"))
 	if err != nil {
 		log.Fatal(err)
