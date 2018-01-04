@@ -26,8 +26,6 @@ var (
 	// have for the main network.
 	mainPowLimit, _ = new(big.Int).SetString("0x0fffff000000000000000000000000000000000000000000000000000000", 0)
 
-	fakPowLimit, _ = new(big.Int).SetString("0x000010024c000000000000000000000000000000000000000000000000000000", 0)
-
 	// regressionPowLimit is the highest proof of work value a Litecoin block
 	// can have for the regression test network.  It is the value 2^255 - 1.
 	regressionPowLimit = new(big.Int).Sub(new(big.Int).Lsh(bigOne, 255), bigOne)
@@ -238,13 +236,11 @@ var MainNetParams = Params{
 		{"18.217.151.127", false},
 	},
 
-	// GenesisBlock *wire.MsgBlock
-	// GenesisHash *chainhash.Hash
 	GenesisBlock: &genesisBlock,
 	GenesisHash:  &genesisHash,
 
-	PowLimit: fakPowLimit,
-	// PowLimitBits: 0x1E0FFFFF,
+	PowLimit:     new(big.Int).Lsh(big.NewInt(0x1e10024c&0x007fffff), 8*((0x1e10024c>>24)-3)),
+	PowLimitBits: 0x1e10024c,
 
 	BIP0034Height: 710000,
 	BIP0065Height: 918684,
@@ -256,7 +252,8 @@ var MainNetParams = Params{
 	TargetTimePerBlock:       150 * time.Second,
 	RetargetAdjustmentFactor: 4,
 
-	// GenerateSupported bool
+	GenerateSupported: true,
+
 	Checkpoints: []Checkpoint{
 		{1, newHashFromStr("8852898d57539ff7e065b16149d2097a37b41617b963d6002a7a00ecd1eeadc8")},
 		{8750, newHashFromStr("7e2400eb281e7577d83d6f5c30e23caaea396650a697fc23f3d7e5d5151d9aa5")},
@@ -283,23 +280,24 @@ var MainNetParams = Params{
 		},
 	},
 
-	RelayNonStdTxs: false,
+	RelayNonStdTxs: true,
 
-	PubKeyHashAddrID: 0x00, // starts with m or n
+	// Bech32HRPSegwit string
 
-	ScriptHashAddrID: 0x7F, // starts with t
+	PubKeyHashAddrID: 0x7F, // First byte of a P2PKH address
+	ScriptHashAddrID: 0x7D, // First byte of a P2SH address
+	PrivateKeyID:     0xFF, // First byte of a WIF private key
 
-	PrivateKeyID:            0x80, // starts with 5 (uncompressed) or K (compressed)
-	WitnessPubKeyHashAddrID: 0x06, // starts with p2
-	WitnessScriptHashAddrID: 0x0A, // starts with 7Xh
+	// WitnessPubKeyHashAddrID: 0x06, // First byte of a P2WPKH address
+	// WitnessScriptHashAddrID: 0x0A, // First byte of a P2WSH address
 
 	// BIP32 hierarchical deterministic extended key magics
-	HDPrivateKeyID: [4]byte{0x04, 0x35, 0x83, 0x94}, // starts with tprv
-	HDPublicKeyID:  [4]byte{0x04, 0x35, 0x87, 0xcf}, // starts with tpub
+	HDPrivateKeyID: [4]byte{0x04, 0x88, 0xad, 0xe4}, // starts with xprv
+	HDPublicKeyID:  [4]byte{0x04, 0x88, 0xb2, 0x1e}, // starts with xpub
 
 	// BIP44 coin type used in the hierarchical deterministic path for
 	// address generation.
-	HDCoinType: 1,
+	HDCoinType: 0,
 }
 
 // RegressionNetParams defines the network parameters for the regression test
