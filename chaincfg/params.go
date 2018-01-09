@@ -256,8 +256,9 @@ var MainNetParams = Params{
 
 	Checkpoints: []Checkpoint{
 		{1, newHashFromStr("8852898d57539ff7e065b16149d2097a37b41617b963d6002a7a00ecd1eeadc8")},
-		{8750, newHashFromStr("7e2400eb281e7577d83d6f5c30e23caaea396650a697fc23f3d7e5d5151d9aa5")},
-		{10400, newHashFromStr("80ccf07f265be53dff8d881243bd0bd48deb388e4fe0c9273632da055a9ba216")},
+		{4096, newHashFromStr("d954347803936341886051d042cc1b119e9e9a145db439ed1104c66fd44a73cd")},
+		{8192, newHashFromStr("de0263e41b31d7da0f3e04d02bc8c5670d3bae50e284e5006147984a03949c3f")},
+		{16384, newHashFromStr("a9fe2b154084f8f06ad16d817d390bf3702f8e2ffd07e8afdc93f0b33cd5d7fb")},
 	},
 	RuleChangeActivationThreshold: 6048,
 	MinerConfirmationWindow:       8064,
