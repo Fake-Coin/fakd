@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 )
 
 // MaxBlockLocatorsPerMsg is the maximum number of block locator hashes allowed

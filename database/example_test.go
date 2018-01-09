@@ -10,11 +10,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/NeilVallon/fakd/chaincfg"
-	"github.com/NeilVallon/fakd/database"
-	_ "github.com/NeilVallon/fakd/database/ffldb"
-	"github.com/NeilVallon/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/database"
+	_ "fakco.in/fakd/database/ffldb"
+	"fakco.in/fakd/wire"
+	"fakco.in/fakutil"
 )
 
 // This example demonstrates creating a new database.
@@ -136,7 +136,7 @@ func Example_blockStorageAndRetrieval() {
 	// and example.
 	err = db.Update(func(tx database.Tx) error {
 		genesisBlock := chaincfg.MainNetParams.GenesisBlock
-		return tx.StoreBlock(ltcutil.NewBlock(genesisBlock))
+		return tx.StoreBlock(fakutil.NewBlock(genesisBlock))
 	})
 	if err != nil {
 		fmt.Println(err)

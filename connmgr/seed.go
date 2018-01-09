@@ -11,8 +11,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/NeilVallon/fakd/chaincfg"
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/wire"
 )
 
 const (

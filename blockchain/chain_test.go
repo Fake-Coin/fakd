@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NeilVallon/fakd/chaincfg"
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/wire"
+	"fakco.in/fakutil"
 )
 
 // TestHaveBlock tests the HaveBlock API to ensure proper functionality.
@@ -25,7 +25,7 @@ func TestHaveBlock(t *testing.T) {
 		"blk_3A.dat.bz2",
 	}
 
-	var blocks []*ltcutil.Block
+	var blocks []*fakutil.Block
 	for _, file := range testFiles {
 		blockTmp, err := loadBlocks(file)
 		if err != nil {
@@ -62,7 +62,7 @@ func TestHaveBlock(t *testing.T) {
 	}
 
 	// Insert an orphan block.
-	_, isOrphan, err := chain.ProcessBlock(ltcutil.NewBlock(&Block100000),
+	_, isOrphan, err := chain.ProcessBlock(fakutil.NewBlock(&Block100000),
 		BFNone)
 	if err != nil {
 		t.Errorf("Unable to process block: %v", err)
@@ -139,7 +139,7 @@ func TestCalcSequenceLock(t *testing.T) {
 	// Create a utxo view with a fake utxo for the inputs used in the
 	// transactions created below.  This utxo is added such that it has an
 	// age of 4 blocks.
-	targetTx := ltcutil.NewTx(&wire.MsgTx{
+	targetTx := fakutil.NewTx(&wire.MsgTx{
 		TxOut: []*wire.TxOut{{
 			PkScript: nil,
 			Value:    10,
@@ -187,7 +187,7 @@ func TestCalcSequenceLock(t *testing.T) {
 
 	// Adding a utxo with a height of 0x7fffffff indicates that the output
 	// is currently unmined.
-	utxoView.AddTxOuts(ltcutil.NewTx(unConfTx), 0x7fffffff)
+	utxoView.AddTxOuts(fakutil.NewTx(unConfTx), 0x7fffffff)
 
 	tests := []struct {
 		tx      *wire.MsgTx
@@ -422,7 +422,7 @@ func TestCalcSequenceLock(t *testing.T) {
 
 	t.Logf("Running %v SequenceLock tests", len(tests))
 	for i, test := range tests {
-		utilTx := ltcutil.NewTx(test.tx)
+		utilTx := fakutil.NewTx(test.tx)
 		seqLock, err := chain.CalcSequenceLock(utilTx, test.view, test.mempool)
 		if err != nil {
 			t.Fatalf("test #%d, unable to calc sequence lock: %v", i, err)

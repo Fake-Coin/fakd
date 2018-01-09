@@ -12,10 +12,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NeilVallon/fakd/chaincfg"
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/peer"
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/peer"
+	"fakco.in/fakd/wire"
 	"github.com/btcsuite/go-socks/socks"
 )
 

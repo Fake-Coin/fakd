@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 )
 
 // maxFlagsPerMerkleBlock is the maximum number of flag bytes that could

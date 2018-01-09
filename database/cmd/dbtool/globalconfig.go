@@ -10,15 +10,15 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/NeilVallon/fakd/chaincfg"
-	"github.com/NeilVallon/fakd/database"
-	_ "github.com/NeilVallon/fakd/database/ffldb"
-	"github.com/NeilVallon/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/database"
+	_ "fakco.in/fakd/database/ffldb"
+	"fakco.in/fakd/wire"
+	"fakco.in/fakutil"
 )
 
 var (
-	ltcdHomeDir     = ltcutil.AppDataDir("fakd", false)
+	ltcdHomeDir     = fakutil.AppDataDir("fakd", false)
 	knownDbTypes    = database.SupportedDrivers()
 	activeNetParams = &chaincfg.MainNetParams
 

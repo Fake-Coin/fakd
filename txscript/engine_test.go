@@ -7,8 +7,8 @@ package txscript
 import (
 	"testing"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/wire"
 )
 
 // TestBadPC sets the pc to a deliberately bad result then confirms that Step()

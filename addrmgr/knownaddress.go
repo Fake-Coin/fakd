@@ -7,7 +7,7 @@ package addrmgr
 import (
 	"time"
 
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/wire"
 )
 
 // KnownAddress tracks information about a known network address that is used

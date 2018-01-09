@@ -15,9 +15,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/wire"
+	"fakco.in/fakutil"
 )
 
 // scriptTestName returns a descriptive test name for the given reference script
@@ -347,7 +347,7 @@ func testScripts(t *testing.T, tests [][]interface{}, useSigCache bool) {
 
 		var (
 			witness  wire.TxWitness
-			inputAmt ltcutil.Amount
+			inputAmt fakutil.Amount
 		)
 
 		// When the first field of the test data is a slice it contains
@@ -367,7 +367,7 @@ func testScripts(t *testing.T, tests [][]interface{}, useSigCache bool) {
 				continue
 			}
 
-			inputAmt, err = ltcutil.NewAmount(witnessData[len(witnessData)-1].(float64))
+			inputAmt, err = fakutil.NewAmount(witnessData[len(witnessData)-1].(float64))
 			if err != nil {
 				t.Errorf("%s: can't parse input amt: %v",
 					name, err)
@@ -547,7 +547,7 @@ testloop:
 			continue
 		}
 
-		tx, err := ltcutil.NewTxFromBytes(serializedTx)
+		tx, err := fakutil.NewTxFromBytes(serializedTx)
 		if err != nil {
 			t.Errorf("bad test (arg 2 not msgtx %v) %d: %v", err,
 				i, test)
@@ -702,7 +702,7 @@ testloop:
 			continue
 		}
 
-		tx, err := ltcutil.NewTxFromBytes(serializedTx)
+		tx, err := fakutil.NewTxFromBytes(serializedTx)
 		if err != nil {
 			t.Errorf("bad test (arg 2 not msgtx %v) %d: %v", err,
 				i, test)

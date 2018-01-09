@@ -9,9 +9,9 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/txscript"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/txscript"
+	"fakco.in/fakutil"
 )
 
 const (
@@ -101,7 +101,7 @@ func HashMerkleBranches(left *chainhash.Hash, right *chainhash.Hash) *chainhash.
 // using witness transaction id's rather than regular transaction id's. This
 // also presents an additional case wherein the wtxid of the coinbase transaction
 // is the zeroHash.
-func BuildMerkleTreeStore(transactions []*ltcutil.Tx, witness bool) []*chainhash.Hash {
+func BuildMerkleTreeStore(transactions []*fakutil.Tx, witness bool) []*chainhash.Hash {
 	// Calculate how many entries are required to hold the binary merkle
 	// tree as a linear array and create an array of that size.
 	nextPoT := nextPowerOfTwo(len(transactions))
@@ -160,7 +160,7 @@ func BuildMerkleTreeStore(transactions []*ltcutil.Tx, witness bool) []*chainhash
 // boolean indicating if the witness root was located within any of the txOut's
 // in the passed transaction. The witness commitment is stored as the data push
 // for an OP_RETURN with special magic bytes to aide in location.
-func ExtractWitnessCommitment(tx *ltcutil.Tx) ([]byte, bool) {
+func ExtractWitnessCommitment(tx *fakutil.Tx) ([]byte, bool) {
 	// The witness commitment *must* be located within one of the coinbase
 	// transaction's outputs.
 	if !IsCoinBase(tx) {
@@ -191,7 +191,7 @@ func ExtractWitnessCommitment(tx *ltcutil.Tx) ([]byte, bool) {
 
 // ValidateWitnessCommitment validates the witness commitment (if any) found
 // within the coinbase transaction of the passed block.
-func ValidateWitnessCommitment(blk *ltcutil.Block) error {
+func ValidateWitnessCommitment(blk *fakutil.Block) error {
 	// If the block doesn't have any transactions at all, then we won't be
 	// able to extract a commitment from the non-existent coinbase
 	// transaction. So we exit early here.

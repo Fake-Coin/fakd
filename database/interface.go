@@ -8,8 +8,8 @@
 package database
 
 import (
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakutil"
 )
 
 // Cursor represents a cursor over key/value pairs and nested buckets of a
@@ -227,7 +227,7 @@ type Tx interface {
 	//   - ErrTxClosed if the transaction has already been closed
 	//
 	// Other errors are possible depending on the implementation.
-	StoreBlock(block *ltcutil.Block) error
+	StoreBlock(block *fakutil.Block) error
 
 	// HasBlock returns whether or not a block with the given hash exists
 	// in the database.

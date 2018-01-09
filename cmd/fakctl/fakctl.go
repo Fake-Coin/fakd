@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/NeilVallon/fakd/btcjson"
+	"fakco.in/fakd/btcjson"
 )
 
 const (

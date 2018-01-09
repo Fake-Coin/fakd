@@ -9,7 +9,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/NeilVallon/fakd/btcjson"
+	"fakco.in/fakd/btcjson"
 )
 
 // TestUsageFlagStringer tests the stringized output for the UsageFlag type.

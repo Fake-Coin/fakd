@@ -7,7 +7,7 @@ package addrmgr
 import (
 	"time"
 
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/wire"
 )
 
 func TstKnownAddressIsBad(ka *KnownAddress) bool {

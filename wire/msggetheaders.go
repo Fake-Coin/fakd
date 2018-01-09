@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 )
 
 // MsgGetHeaders implements the Message interface and represents a bitcoin

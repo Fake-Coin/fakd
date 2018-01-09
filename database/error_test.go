@@ -8,7 +8,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/NeilVallon/fakd/database"
+	"fakco.in/fakd/database"
 )
 
 // TestErrorCodeStringer tests the stringized output for the ErrorCode type.

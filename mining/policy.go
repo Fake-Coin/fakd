@@ -5,9 +5,9 @@
 package mining
 
 import (
-	"github.com/NeilVallon/fakd/blockchain"
-	"github.com/NeilVallon/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/wire"
+	"fakco.in/fakutil"
 )
 
 const (
@@ -44,7 +44,7 @@ type Policy struct {
 	// TxMinFreeFee is the minimum fee in Satoshi/1000 bytes that is
 	// required for a transaction to be treated as free for mining purposes
 	// (block template generation).
-	TxMinFreeFee ltcutil.Amount
+	TxMinFreeFee fakutil.Amount
 }
 
 // minInt is a helper function to return the minimum of two ints.  This avoids

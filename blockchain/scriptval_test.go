@@ -9,7 +9,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/NeilVallon/fakd/txscript"
+	"fakco.in/fakd/txscript"
 )
 
 // TestCheckBlockScripts ensures that validating the all of the scripts in a

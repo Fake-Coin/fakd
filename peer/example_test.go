@@ -9,9 +9,9 @@ import (
 	"net"
 	"time"
 
-	"github.com/NeilVallon/fakd/chaincfg"
-	"github.com/NeilVallon/fakd/peer"
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/peer"
+	"fakco.in/fakd/wire"
 )
 
 // mockRemotePeer creates a basic inbound peer listening on the simnet port for

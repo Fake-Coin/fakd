@@ -11,7 +11,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/NeilVallon/fakd/btcjson"
+	"fakco.in/fakd/btcjson"
 )
 
 // TestWalletSvrWsCmds tests all of the wallet server websocket-specific

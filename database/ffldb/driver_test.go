@@ -12,10 +12,10 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/NeilVallon/fakd/chaincfg"
-	"github.com/NeilVallon/fakd/database"
-	"github.com/NeilVallon/fakd/database/ffldb"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/database"
+	"fakco.in/fakd/database/ffldb"
+	"fakco.in/fakutil"
 )
 
 // dbType is the database type name for this driver.
@@ -171,7 +171,7 @@ func TestPersistence(t *testing.T) {
 		"b1key2": "foo2",
 		"b1key3": "foo3",
 	}
-	genesisBlock := ltcutil.NewBlock(chaincfg.MainNetParams.GenesisBlock)
+	genesisBlock := fakutil.NewBlock(chaincfg.MainNetParams.GenesisBlock)
 	genesisHash := chaincfg.MainNetParams.GenesisHash
 	err = db.Update(func(tx database.Tx) error {
 		metadataBucket := tx.Metadata()

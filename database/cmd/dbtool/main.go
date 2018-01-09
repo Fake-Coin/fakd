@@ -10,7 +10,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/NeilVallon/fakd/database"
+	"fakco.in/fakd/database"
 	"github.com/btcsuite/btclog"
 	flags "github.com/jessevdk/go-flags"
 )

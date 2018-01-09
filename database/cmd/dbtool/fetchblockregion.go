@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/database"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/database"
 )
 
 // blockRegionCmd defines the configuration options for the fetchblockregion

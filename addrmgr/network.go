@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/wire"
 )
 
 var (

@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 )
 
 // defaultTransactionAlloc is the default size used for the backing array

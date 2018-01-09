@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/NeilVallon/fakd/database"
-	_ "github.com/NeilVallon/fakd/database/ffldb"
+	"fakco.in/fakd/database"
+	_ "fakco.in/fakd/database/ffldb"
 )
 
 var (

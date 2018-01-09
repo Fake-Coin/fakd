@@ -7,8 +7,8 @@ package txscript
 import (
 	"sync"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/wire"
 )
 
 // TxSigHashes houses the partial set of sighashes introduced within BIP0143.

@@ -11,7 +11,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/NeilVallon/fakd/btcjson"
+	"fakco.in/fakd/btcjson"
 )
 
 // helpDescsEnUS defines the English descriptions used for the help strings.

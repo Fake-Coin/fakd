@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/wire"
 )
 
 // mruInventoryMap provides a concurrency safe map that is limited to a maximum

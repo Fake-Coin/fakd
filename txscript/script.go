@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/wire"
 )
 
 // Bip16Activation is the timestamp where BIP0016 is valid to use in the

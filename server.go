@@ -22,21 +22,21 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/NeilVallon/fakd/addrmgr"
-	"github.com/NeilVallon/fakd/blockchain"
-	"github.com/NeilVallon/fakd/blockchain/indexers"
-	"github.com/NeilVallon/fakd/chaincfg"
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/connmgr"
-	"github.com/NeilVallon/fakd/database"
-	"github.com/NeilVallon/fakd/mempool"
-	"github.com/NeilVallon/fakd/mining"
-	"github.com/NeilVallon/fakd/mining/cpuminer"
-	"github.com/NeilVallon/fakd/peer"
-	"github.com/NeilVallon/fakd/txscript"
-	"github.com/NeilVallon/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
-	"github.com/ltcsuite/ltcutil/bloom"
+	"fakco.in/fakd/addrmgr"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/blockchain/indexers"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/connmgr"
+	"fakco.in/fakd/database"
+	"fakco.in/fakd/mempool"
+	"fakco.in/fakd/mining"
+	"fakco.in/fakd/mining/cpuminer"
+	"fakco.in/fakd/peer"
+	"fakco.in/fakd/txscript"
+	"fakco.in/fakd/wire"
+	"fakco.in/fakutil"
+	"fakco.in/fakutil/bloom"
 )
 
 const (
@@ -471,9 +471,9 @@ func (sp *serverPeer) OnTx(_ *peer.Peer, msg *wire.MsgTx) {
 	}
 
 	// Add the transaction to the known inventory for the peer.
-	// Convert the raw MsgTx to a ltcutil.Tx which provides some convenience
+	// Convert the raw MsgTx to a fakutil.Tx which provides some convenience
 	// methods and things such as hash caching.
-	tx := ltcutil.NewTx(msg)
+	tx := fakutil.NewTx(msg)
 	iv := wire.NewInvVect(wire.InvTypeTx, tx.Hash())
 	sp.AddKnownInventory(iv)
 
@@ -489,9 +489,9 @@ func (sp *serverPeer) OnTx(_ *peer.Peer, msg *wire.MsgTx) {
 // OnBlock is invoked when a peer receives a block bitcoin message.  It
 // blocks until the bitcoin block has been fully processed.
 func (sp *serverPeer) OnBlock(_ *peer.Peer, msg *wire.MsgBlock, buf []byte) {
-	// Convert the raw MsgBlock to a ltcutil.Block which provides some
+	// Convert the raw MsgBlock to a fakutil.Block which provides some
 	// convenience methods and things such as hash caching.
-	block := ltcutil.NewBlockFromBlockAndBytes(msg, buf)
+	block := fakutil.NewBlockFromBlockAndBytes(msg, buf)
 
 	// Add the block to the known inventory for the peer.
 	iv := wire.NewInvVect(wire.InvTypeBlock, block.Hash())
@@ -882,9 +882,9 @@ func (sp *serverPeer) enforceNodeBloomFlag(cmd string) bool {
 // disconnected if an invalid fee filter value is provided.
 func (sp *serverPeer) OnFeeFilter(_ *peer.Peer, msg *wire.MsgFeeFilter) {
 	// Check that the passed minimum fee is a valid amount.
-	if msg.MinFee < 0 || msg.MinFee > ltcutil.MaxSatoshi {
+	if msg.MinFee < 0 || msg.MinFee > fakutil.MaxSatoshi {
 		peerLog.Debugf("Peer %v sent an invalid feefilter '%v' -- "+
-			"disconnecting", sp, ltcutil.Amount(msg.MinFee))
+			"disconnecting", sp, fakutil.Amount(msg.MinFee))
 		sp.Disconnect()
 		return
 	}
@@ -1116,7 +1116,7 @@ func (s *server) AnnounceNewTransactions(txns []*mempool.TxDesc) {
 
 // Transaction has one confirmation on the main chain. Now we can mark it as no
 // longer needing rebroadcasting.
-func (s *server) TransactionConfirmed(tx *ltcutil.Tx) {
+func (s *server) TransactionConfirmed(tx *fakutil.Tx) {
 	// Rebroadcasting is only necessary when the RPC server is active.
 	if s.rpcServer == nil {
 		return
@@ -2502,7 +2502,7 @@ func newServer(listenAddrs []string, db database.DB, chainParams *chaincfg.Param
 		FetchUtxoView:  s.chain.FetchUtxoView,
 		BestHeight:     func() int32 { return s.chain.BestSnapshot().Height },
 		MedianTimePast: func() time.Time { return s.chain.BestSnapshot().MedianTime },
-		CalcSequenceLock: func(tx *ltcutil.Tx, view *blockchain.UtxoViewpoint) (*blockchain.SequenceLock, error) {
+		CalcSequenceLock: func(tx *fakutil.Tx, view *blockchain.UtxoViewpoint) (*blockchain.SequenceLock, error) {
 			return s.chain.CalcSequenceLock(tx, view, true)
 		},
 		IsDeploymentActive: s.chain.IsDeploymentActive,

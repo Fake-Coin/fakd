@@ -7,7 +7,7 @@ package blockchain
 import (
 	"testing"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 )
 
 // TestThresholdStateStringer tests the stringized output for the

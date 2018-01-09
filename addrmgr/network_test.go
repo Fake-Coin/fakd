@@ -8,8 +8,8 @@ import (
 	"net"
 	"testing"
 
-	"github.com/NeilVallon/fakd/addrmgr"
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/addrmgr"
+	"fakco.in/fakd/wire"
 )
 
 // TestIPTypes ensures the various functions which determine the type of an IP

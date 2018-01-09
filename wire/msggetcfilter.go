@@ -7,7 +7,7 @@ package wire
 import (
 	"io"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 )
 
 type MsgGetCFilter struct {

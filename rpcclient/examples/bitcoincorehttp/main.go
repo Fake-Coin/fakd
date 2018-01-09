@@ -7,7 +7,7 @@ package main
 import (
 	"log"
 
-	"github.com/NeilVallon/fakd/rpcclient"
+	"fakco.in/fakd/rpcclient"
 )
 
 func main() {

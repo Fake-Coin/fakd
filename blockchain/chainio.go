@@ -12,10 +12,10 @@ import (
 	"sort"
 	"time"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/database"
-	"github.com/NeilVallon/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/database"
+	"fakco.in/fakd/wire"
+	"fakco.in/fakutil"
 )
 
 var (
@@ -414,7 +414,7 @@ func serializeSpendJournalEntry(stxos []spentTxOut) []byte {
 // view MUST have the utxos referenced by all of the transactions available for
 // the passed block since that information is required to reconstruct the spent
 // txouts.
-func dbFetchSpendJournalEntry(dbTx database.Tx, block *ltcutil.Block, view *UtxoViewpoint) ([]spentTxOut, error) {
+func dbFetchSpendJournalEntry(dbTx database.Tx, block *fakutil.Block, view *UtxoViewpoint) ([]spentTxOut, error) {
 	// Exclude the coinbase transaction since it can't spend anything.
 	spendBucket := dbTx.Metadata().Bucket(spendJournalBucketName)
 	serialized := spendBucket.Get(block.Hash()[:])
@@ -1057,7 +1057,7 @@ func dbPutBestState(dbTx database.Tx, snapshot *BestState, workSum *big.Int) err
 // the genesis block, so it must only be called on an uninitialized database.
 func (b *BlockChain) createChainState() error {
 	// Create a new node from the genesis block and set it as the best node.
-	genesisBlock := ltcutil.NewBlock(b.chainParams.GenesisBlock)
+	genesisBlock := fakutil.NewBlock(b.chainParams.GenesisBlock)
 	header := &genesisBlock.MsgBlock().Header
 	node := newBlockNode(header, 0)
 	b.bestChain.SetTip(node)
@@ -1201,7 +1201,7 @@ func (b *BlockChain) initChainState() error {
 
 		// Initialize the state related to the best block.
 		blockSize := uint64(len(blockBytes))
-		blockWeight := uint64(GetBlockWeight(ltcutil.NewBlock(&block)))
+		blockWeight := uint64(GetBlockWeight(fakutil.NewBlock(&block)))
 		numTxns := uint64(len(block.Transactions))
 		b.stateSnapshot = newBestState(tip, blockSize, blockWeight,
 			numTxns, state.totalTxns, tip.CalcPastMedianTime())
@@ -1252,9 +1252,9 @@ func dbFetchHeaderByHeight(dbTx database.Tx, height int32) (*wire.BlockHeader, e
 }
 
 // dbFetchBlockByNode uses an existing database transaction to retrieve the
-// raw block for the provided node, deserialize it, and return a ltcutil.Block
+// raw block for the provided node, deserialize it, and return a fakutil.Block
 // with the height set.
-func dbFetchBlockByNode(dbTx database.Tx, node *blockNode) (*ltcutil.Block, error) {
+func dbFetchBlockByNode(dbTx database.Tx, node *blockNode) (*fakutil.Block, error) {
 	// Load the raw block bytes from the database.
 	blockBytes, err := dbTx.FetchBlock(&node.hash)
 	if err != nil {
@@ -1262,7 +1262,7 @@ func dbFetchBlockByNode(dbTx database.Tx, node *blockNode) (*ltcutil.Block, erro
 	}
 
 	// Create the encapsulated block and set the height appropriately.
-	block, err := ltcutil.NewBlockFromBytes(blockBytes)
+	block, err := fakutil.NewBlockFromBytes(blockBytes)
 	if err != nil {
 		return nil, err
 	}
@@ -1274,7 +1274,7 @@ func dbFetchBlockByNode(dbTx database.Tx, node *blockNode) (*ltcutil.Block, erro
 // BlockByHeight returns the block at the given height in the main chain.
 //
 // This function is safe for concurrent access.
-func (b *BlockChain) BlockByHeight(blockHeight int32) (*ltcutil.Block, error) {
+func (b *BlockChain) BlockByHeight(blockHeight int32) (*fakutil.Block, error) {
 	// Lookup the block height in the best chain.
 	node := b.bestChain.NodeByHeight(blockHeight)
 	if node == nil {
@@ -1283,7 +1283,7 @@ func (b *BlockChain) BlockByHeight(blockHeight int32) (*ltcutil.Block, error) {
 	}
 
 	// Load the block from the database and return it.
-	var block *ltcutil.Block
+	var block *fakutil.Block
 	err := b.db.View(func(dbTx database.Tx) error {
 		var err error
 		block, err = dbFetchBlockByNode(dbTx, node)
@@ -1296,7 +1296,7 @@ func (b *BlockChain) BlockByHeight(blockHeight int32) (*ltcutil.Block, error) {
 // the appropriate chain height set.
 //
 // This function is safe for concurrent access.
-func (b *BlockChain) BlockByHash(hash *chainhash.Hash) (*ltcutil.Block, error) {
+func (b *BlockChain) BlockByHash(hash *chainhash.Hash) (*fakutil.Block, error) {
 	// Lookup the block hash in block index and ensure it is in the best
 	// chain.
 	node := b.index.LookupNode(hash)
@@ -1306,7 +1306,7 @@ func (b *BlockChain) BlockByHash(hash *chainhash.Hash) (*ltcutil.Block, error) {
 	}
 
 	// Load the block from the database and return it.
-	var block *ltcutil.Block
+	var block *fakutil.Block
 	err := b.db.View(func(dbTx database.Tx) error {
 		var err error
 		block, err = dbFetchBlockByNode(dbTx, node)

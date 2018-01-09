@@ -7,7 +7,7 @@ package blockchain
 import (
 	"math"
 
-	"github.com/NeilVallon/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg"
 )
 
 const (

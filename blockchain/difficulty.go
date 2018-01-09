@@ -8,7 +8,7 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 )
 
 var (

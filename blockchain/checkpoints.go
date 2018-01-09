@@ -8,10 +8,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/NeilVallon/fakd/chaincfg"
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/txscript"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/txscript"
+	"fakco.in/fakutil"
 )
 
 // CheckpointConfirmations is the number of blocks before the end of the current
@@ -169,7 +169,7 @@ func (b *BlockChain) findPreviousCheckpoint() (*blockNode, error) {
 
 // isNonstandardTransaction determines whether a transaction contains any
 // scripts which are not one of the standard types.
-func isNonstandardTransaction(tx *ltcutil.Tx) bool {
+func isNonstandardTransaction(tx *fakutil.Tx) bool {
 	// Check all of the output public key scripts for non-standard scripts.
 	for _, txOut := range tx.MsgTx().TxOut {
 		scriptClass := txscript.GetScriptClass(txOut.PkScript)
@@ -197,7 +197,7 @@ func isNonstandardTransaction(tx *ltcutil.Tx) bool {
 // decision and then manually added to the list of checkpoints for a network.
 //
 // This function is safe for concurrent access.
-func (b *BlockChain) IsCheckpointCandidate(block *ltcutil.Block) (bool, error) {
+func (b *BlockChain) IsCheckpointCandidate(block *fakutil.Block) (bool, error) {
 	b.chainLock.RLock()
 	defer b.chainLock.RUnlock()
 

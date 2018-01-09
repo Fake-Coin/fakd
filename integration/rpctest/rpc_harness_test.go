@@ -13,15 +13,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NeilVallon/fakd/chaincfg"
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/txscript"
-	"github.com/NeilVallon/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/txscript"
+	"fakco.in/fakd/wire"
+	"fakco.in/fakutil"
 )
 
 func testSendOutputs(r *Harness, t *testing.T) {
-	genSpend := func(amt ltcutil.Amount) *chainhash.Hash {
+	genSpend := func(amt fakutil.Amount) *chainhash.Hash {
 		// Grab a fresh address from the wallet.
 		addr, err := r.NewAddress()
 		if err != nil {
@@ -63,7 +63,7 @@ func testSendOutputs(r *Harness, t *testing.T) {
 
 	// First, generate a small spend which will require only a single
 	// input.
-	txid := genSpend(ltcutil.Amount(5 * ltcutil.SatoshiPerBitcoin))
+	txid := genSpend(fakutil.Amount(5 * fakutil.SatoshiPerBitcoin))
 
 	// Generate a single block, the transaction the wallet created should
 	// be found in this block.
@@ -75,7 +75,7 @@ func testSendOutputs(r *Harness, t *testing.T) {
 
 	// Next, generate a spend much greater than the block reward. This
 	// transaction should also have been mined properly.
-	txid = genSpend(ltcutil.Amount(500 * ltcutil.SatoshiPerBitcoin))
+	txid = genSpend(fakutil.Amount(500 * fakutil.SatoshiPerBitcoin))
 	blockHashes, err = r.Node.Generate(1)
 	if err != nil {
 		t.Fatalf("unable to generate single block: %v", err)
@@ -335,17 +335,17 @@ func testGenerateAndSubmitBlock(r *Harness, t *testing.T) {
 	if err != nil {
 		t.Fatalf("unable to create script: %v", err)
 	}
-	output := wire.NewTxOut(ltcutil.SatoshiPerBitcoin, pkScript)
+	output := wire.NewTxOut(fakutil.SatoshiPerBitcoin, pkScript)
 
 	const numTxns = 5
-	txns := make([]*ltcutil.Tx, 0, numTxns)
+	txns := make([]*fakutil.Tx, 0, numTxns)
 	for i := 0; i < numTxns; i++ {
 		tx, err := r.CreateTransaction([]*wire.TxOut{output}, 10)
 		if err != nil {
 			t.Fatalf("unable to create tx: %v", err)
 		}
 
-		txns = append(txns, ltcutil.NewTx(tx))
+		txns = append(txns, fakutil.NewTx(tx))
 	}
 
 	// Now generate a block with the default block version, and a zero'd
@@ -402,17 +402,17 @@ func testGenerateAndSubmitBlockWithCustomCoinbaseOutputs(r *Harness,
 	if err != nil {
 		t.Fatalf("unable to create script: %v", err)
 	}
-	output := wire.NewTxOut(ltcutil.SatoshiPerBitcoin, pkScript)
+	output := wire.NewTxOut(fakutil.SatoshiPerBitcoin, pkScript)
 
 	const numTxns = 5
-	txns := make([]*ltcutil.Tx, 0, numTxns)
+	txns := make([]*fakutil.Tx, 0, numTxns)
 	for i := 0; i < numTxns; i++ {
 		tx, err := r.CreateTransaction([]*wire.TxOut{output}, 10)
 		if err != nil {
 			t.Fatalf("unable to create tx: %v", err)
 		}
 
-		txns = append(txns, ltcutil.NewTx(tx))
+		txns = append(txns, fakutil.NewTx(tx))
 	}
 
 	// Now generate a block with the default block version, a zero'd out
@@ -479,7 +479,7 @@ func testMemWalletReorg(r *Harness, t *testing.T) {
 	defer harness.TearDown()
 
 	// The internal wallet of this harness should now have 250 BTC.
-	expectedBalance := ltcutil.Amount(250 * ltcutil.SatoshiPerBitcoin)
+	expectedBalance := fakutil.Amount(250 * fakutil.SatoshiPerBitcoin)
 	walletBalance := harness.ConfirmedBalance()
 	if expectedBalance != walletBalance {
 		t.Fatalf("wallet balance incorrect: expected %v, got %v",
@@ -499,7 +499,7 @@ func testMemWalletReorg(r *Harness, t *testing.T) {
 	// The original wallet should now have a balance of 0 BTC as its entire
 	// chain should have been decimated in favor of the main harness'
 	// chain.
-	expectedBalance = ltcutil.Amount(0)
+	expectedBalance = fakutil.Amount(0)
 	walletBalance = harness.ConfirmedBalance()
 	if expectedBalance != walletBalance {
 		t.Fatalf("wallet balance incorrect: expected %v, got %v",
@@ -520,7 +520,7 @@ func testMemWalletLockedOutputs(r *Harness, t *testing.T) {
 	if err != nil {
 		t.Fatalf("unable to create script: %v", err)
 	}
-	outputAmt := ltcutil.Amount(50 * ltcutil.SatoshiPerBitcoin)
+	outputAmt := fakutil.Amount(50 * fakutil.SatoshiPerBitcoin)
 	output := wire.NewTxOut(int64(outputAmt), pkScript)
 	tx, err := r.CreateTransaction([]*wire.TxOut{output}, 10)
 	if err != nil {
@@ -603,7 +603,7 @@ func TestMain(m *testing.M) {
 func TestHarness(t *testing.T) {
 	// We should have (numMatureOutputs * 50 BTC) of mature unspendable
 	// outputs.
-	expectedBalance := ltcutil.Amount(numMatureOutputs * 50 * ltcutil.SatoshiPerBitcoin)
+	expectedBalance := fakutil.Amount(numMatureOutputs * 50 * fakutil.SatoshiPerBitcoin)
 	harnessBalance := mainHarness.ConfirmedBalance()
 	if harnessBalance != expectedBalance {
 		t.Fatalf("expected wallet balance of %v instead have %v",

@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/wire"
 )
 
 // TestMruInventoryMap ensures the MruInventoryMap behaves as expected including

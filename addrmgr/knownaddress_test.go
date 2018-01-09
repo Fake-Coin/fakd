@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/NeilVallon/fakd/addrmgr"
-	"github.com/NeilVallon/fakd/wire"
+	"fakco.in/fakd/addrmgr"
+	"fakco.in/fakd/wire"
 )
 
 func TestChance(t *testing.T) {

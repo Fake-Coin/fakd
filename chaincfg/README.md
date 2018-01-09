@@ -26,7 +26,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 	"github.com/ltcsuite/ltcd/chaincfg"
 )
 
@@ -47,7 +47,7 @@ func main() {
 
 	// Create and print new payment address, specific to the active network.
 	pubKeyHash := make([]byte, 20)
-	addr, err := ltcutil.NewAddressPubKeyHash(pubKeyHash, chainParams)
+	addr, err := fakutil.NewAddressPubKeyHash(pubKeyHash, chainParams)
 	if err != nil {
 		log.Fatal(err)
 	}

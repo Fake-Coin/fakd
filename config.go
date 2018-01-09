@@ -20,16 +20,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/NeilVallon/fakd/blockchain"
-	"github.com/NeilVallon/fakd/chaincfg"
-	"github.com/NeilVallon/fakd/chaincfg/chainhash"
-	"github.com/NeilVallon/fakd/connmgr"
-	"github.com/NeilVallon/fakd/database"
-	_ "github.com/NeilVallon/fakd/database/ffldb"
-	"github.com/NeilVallon/fakd/mempool"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/connmgr"
+	"fakco.in/fakd/database"
+	_ "fakco.in/fakd/database/ffldb"
+	"fakco.in/fakd/mempool"
 	"github.com/btcsuite/go-socks/socks"
 	flags "github.com/jessevdk/go-flags"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 const (
@@ -65,7 +65,7 @@ const (
 )
 
 var (
-	defaultHomeDir     = ltcutil.AppDataDir("fakd", false)
+	defaultHomeDir     = fakutil.AppDataDir("fakd", false)
 	defaultConfigFile  = filepath.Join(defaultHomeDir, defaultConfigFilename)
 	defaultDataDir     = filepath.Join(defaultHomeDir, defaultDataDirname)
 	knownDbTypes       = database.SupportedDrivers()
@@ -163,8 +163,8 @@ type config struct {
 	oniondial            func(string, string, time.Duration) (net.Conn, error)
 	dial                 func(string, string, time.Duration) (net.Conn, error)
 	addCheckpoints       []chaincfg.Checkpoint
-	miningAddrs          []ltcutil.Address
-	minRelayTxFee        ltcutil.Amount
+	miningAddrs          []fakutil.Address
+	minRelayTxFee        fakutil.Amount
 }
 
 // serviceOptions defines the configuration options for the daemon as a service on
@@ -715,7 +715,7 @@ func loadConfig() (*config, []string, error) {
 	}
 
 	// Validate the the minrelaytxfee.
-	cfg.minRelayTxFee, err = ltcutil.NewAmount(cfg.MinRelayTxFee)
+	cfg.minRelayTxFee, err = fakutil.NewAmount(cfg.MinRelayTxFee)
 	if err != nil {
 		str := "%s: invalid minrelaytxfee: %v"
 		err := fmt.Errorf(str, funcName, err)
@@ -827,9 +827,9 @@ func loadConfig() (*config, []string, error) {
 	}
 
 	// Check mining addresses are valid and saved parsed versions.
-	cfg.miningAddrs = make([]ltcutil.Address, 0, len(cfg.MiningAddrs))
+	cfg.miningAddrs = make([]fakutil.Address, 0, len(cfg.MiningAddrs))
 	for _, strAddr := range cfg.MiningAddrs {
-		addr, err := ltcutil.DecodeAddress(strAddr, activeNetParams.Params)
+		addr, err := fakutil.DecodeAddress(strAddr, activeNetParams.Params)
 		if err != nil {
 			str := "%s: mining address '%s' failed to decode: %v"
 			err := fmt.Errorf(str, funcName, strAddr, err)

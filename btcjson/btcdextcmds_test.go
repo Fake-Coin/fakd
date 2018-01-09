@@ -12,7 +12,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/NeilVallon/fakd/btcjson"
+	"fakco.in/fakd/btcjson"
 )
 
 // TestBtcdExtCmds tests all of the ltcd extended commands marshal and unmarshal

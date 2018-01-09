@@ -56,7 +56,7 @@ imports:
   - rotator
 - name: github.com/kkdai/bstream
   version: f391b8402d23024e7c0f624b31267a89998fca95
-- name: github.com/ltcsuite/ltcutil
+- name: fakco.in/fakutil
   version: a88d7dfb1c02af5dffe005ad21f40c42d9fd5ad0
   subpackages:
   - base58
