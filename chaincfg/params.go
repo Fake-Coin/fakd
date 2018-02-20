@@ -232,6 +232,7 @@ var MainNetParams = Params{
 	DefaultPort: "9333",
 
 	DNSSeeds: []DNSSeed{
+		{"72.14.190.40", false},
 		{"18.217.119.225", false},
 		{"18.217.151.127", false},
 	},
@@ -259,6 +260,12 @@ var MainNetParams = Params{
 		{4096, newHashFromStr("d954347803936341886051d042cc1b119e9e9a145db439ed1104c66fd44a73cd")},
 		{8192, newHashFromStr("de0263e41b31d7da0f3e04d02bc8c5670d3bae50e284e5006147984a03949c3f")},
 		{16384, newHashFromStr("a9fe2b154084f8f06ad16d817d390bf3702f8e2ffd07e8afdc93f0b33cd5d7fb")},
+
+		// Dificulty Reset
+		{32254, newHashFromStr("340d0f58bc3e28e65a441be2e8557243230632dc81ed8cf65f6f0677a18eb6cb")},
+		{32255, newHashFromStr("aaa9cfff73faa739eb69afb3e3121959349e420d9cfa4f5f1911c0cefbc1a95f")},
+
+		{32768, newHashFromStr("e14dad16cf0c68bc4d007397877c08a09a77f0be21584a154c23547ff8b0cf70")},
 	},
 	RuleChangeActivationThreshold: 6048,
 	MinerConfirmationWindow:       8064,
