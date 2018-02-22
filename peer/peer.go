@@ -13,16 +13,17 @@ import (
 	"math/rand"
 	"net"
 	"strconv"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	"github.com/btcsuite/go-socks/socks"
-	"github.com/davecgh/go-spew/spew"
 	"fakco.in/fakd/blockchain"
 	"fakco.in/fakd/chaincfg"
 	"fakco.in/fakd/chaincfg/chainhash"
 	"fakco.in/fakd/wire"
+	"github.com/btcsuite/go-socks/socks"
+	"github.com/davecgh/go-spew/spew"
 )
 
 const (
@@ -1096,7 +1097,18 @@ func (p *Peer) handleRemoteVersionMsg(msg *wire.MsgVersion) error {
 		p.wireEncoding = wire.WitnessEncoding
 	}
 
-	return nil
+	// only allow known clients
+	goodSubVers := []string{
+		"/M'hoy Money",
+		"/btcwire",
+	}
+	for _, ver := range goodSubVers {
+		if strings.HasPrefix(p.userAgent, ver) {
+			return nil
+		}
+	}
+	reason := fmt.Sprintf("invalid subver %s at %s", p.userAgent, p.Addr())
+	return errors.New(reason)
 }
 
 // handlePingMsg is invoked when a peer receives a ping bitcoin message.  For
