@@ -13,7 +13,6 @@ import (
 	"math/rand"
 	"net"
 	"strconv"
-	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -1097,18 +1096,7 @@ func (p *Peer) handleRemoteVersionMsg(msg *wire.MsgVersion) error {
 		p.wireEncoding = wire.WitnessEncoding
 	}
 
-	// only allow known clients
-	goodSubVers := []string{
-		"/M'hoy Money",
-		"/btcwire",
-	}
-	for _, ver := range goodSubVers {
-		if strings.HasPrefix(p.userAgent, ver) {
-			return nil
-		}
-	}
-	reason := fmt.Sprintf("invalid subver %s at %s", p.userAgent, p.Addr())
-	return errors.New(reason)
+	return nil
 }
 
 // handlePingMsg is invoked when a peer receives a ping bitcoin message.  For
