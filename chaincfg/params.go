@@ -228,7 +228,7 @@ type Params struct {
 // MainNetParams defines the network parameters for the main Litecoin network.
 var MainNetParams = Params{
 	Name:        "mainnet",
-	Net:         wire.BitcoinNet(0xdbb6c0fb),
+	Net:         wire.BitcoinNet(0x3eafd13c),
 	DefaultPort: "9333",
 
 	DNSSeeds: []DNSSeed{
@@ -243,7 +243,7 @@ var MainNetParams = Params{
 	PowLimit:     new(big.Int).Lsh(big.NewInt(0x1e10024c&0x007fffff), 8*((0x1e10024c>>24)-3)),
 	PowLimitBits: 0x1e10024c,
 
-	BIP0034Height: 710000,
+	BIP0034Height: 1,
 	BIP0065Height: 918684,
 	BIP0066Height: 811879,
 
@@ -265,7 +265,8 @@ var MainNetParams = Params{
 		{32254, newHashFromStr("340d0f58bc3e28e65a441be2e8557243230632dc81ed8cf65f6f0677a18eb6cb")},
 		{32255, newHashFromStr("aaa9cfff73faa739eb69afb3e3121959349e420d9cfa4f5f1911c0cefbc1a95f")},
 
-		{32768, newHashFromStr("e14dad16cf0c68bc4d007397877c08a09a77f0be21584a154c23547ff8b0cf70")},
+		{34863, newHashFromStr("8be5f888265f3b93585a674e254a0cdc6faaf91eadef176bef561e0f88596c72")},
+		{38880, newHashFromStr("70eaf86ddd4a8d4dc10e789e168505186fe1c38bfa895da943f86210839866ee")},
 	},
 	RuleChangeActivationThreshold: 6048,
 	MinerConfirmationWindow:       8064,
@@ -288,7 +289,7 @@ var MainNetParams = Params{
 		},
 	},
 
-	RelayNonStdTxs: true,
+	RelayNonStdTxs: false,
 
 	// Bech32HRPSegwit string
 
