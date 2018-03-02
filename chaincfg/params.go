@@ -232,9 +232,7 @@ var MainNetParams = Params{
 	DefaultPort: "9333",
 
 	DNSSeeds: []DNSSeed{
-		{"72.14.190.40", false},
-		{"18.217.119.225", false},
-		{"18.217.151.127", false},
+		{"seed.fakco.in", false},
 	},
 
 	GenesisBlock: &genesisBlock,
