@@ -265,32 +265,41 @@ var MainNetParams = Params{
 
 		{34863, newHashFromStr("8be5f888265f3b93585a674e254a0cdc6faaf91eadef176bef561e0f88596c72")},
 		{38880, newHashFromStr("70eaf86ddd4a8d4dc10e789e168505186fe1c38bfa895da943f86210839866ee")},
+		{39200, newHashFromStr("0de2b676aa6d095c34b42a5999e3833207c357d1fb71e2789dfe11c5903005e5")},
 	},
-	RuleChangeActivationThreshold: 6048,
-	MinerConfirmationWindow:       8064,
 
+	// Consensus rule change deployments.
+	//
+	// The miner confirmation window is defined as:
+	//   target proof of work timespan / target proof of work spacing
+	RuleChangeActivationThreshold: 6048, // 75% of MinerConfirmationWindow
+	MinerConfirmationWindow:       8064, //
 	Deployments: [DefinedDeployments]ConsensusDeployment{
 		DeploymentTestDummy: {
 			BitNumber:  28,
-			StartTime:  0,             // January 1, 2008 UTC
-			ExpireTime: math.MaxInt64, // December 31, 2008 UTC
+			StartTime:  1199145601, // January 1, 2008 UTC
+			ExpireTime: 1230767999, // December 31, 2008 UTC
 		},
 		DeploymentCSV: {
 			BitNumber:  0,
-			StartTime:  0,             // January 28, 2017 UTC
-			ExpireTime: math.MaxInt64, // January 31st, 2018 UTC
+			StartTime:  1546300800, // January 1, 2019 UTC
+			ExpireTime: 1577836800, // January 1, 2020 UTC
 		},
 		DeploymentSegwit: {
 			BitNumber:  1,
-			StartTime:  0,             // January 28, 2017 UTC
-			ExpireTime: math.MaxInt64, // January 31st, 2018 UTC.
+			StartTime:  1546300800, // January 1, 2019 UTC
+			ExpireTime: 1577836800, // January 1, 2020 UTC
 		},
 	},
 
+	// Mempool parameters
 	RelayNonStdTxs: false,
 
-	// Bech32HRPSegwit string
+	// Human-readable part for Bech32 encoded segwit addresses, as defined in
+	// BIP 173.
+	// Bech32HRPSegwit: "fak", // always fak for main net
 
+	// Address encoding magics
 	PubKeyHashAddrID: 0x7F, // First byte of a P2PKH address
 	ScriptHashAddrID: 0x7D, // First byte of a P2SH address
 	PrivateKeyID:     0xFF, // First byte of a WIF private key
@@ -304,7 +313,7 @@ var MainNetParams = Params{
 
 	// BIP44 coin type used in the hierarchical deterministic path for
 	// address generation.
-	HDCoinType: 0,
+	HDCoinType: 0x06F0,
 }
 
 // RegressionNetParams defines the network parameters for the regression test
