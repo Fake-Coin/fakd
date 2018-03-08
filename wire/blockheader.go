@@ -11,7 +11,7 @@ import (
 
 	"golang.org/x/crypto/scrypt"
 
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 )
 
 // MaxBlockHeaderPayload is the maximum number of bytes a block header can be.

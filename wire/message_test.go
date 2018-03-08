@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 	"github.com/davecgh/go-spew/spew"
 )
 

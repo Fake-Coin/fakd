@@ -26,7 +26,7 @@
 //          "log"
 //
 //          "github.com/ltcsuite/ltcutil"
-//          "github.com/ltcsuite/ltcd/chaincfg"
+//          "fakco.in/fakd/chaincfg"
 //  )
 //
 //  var testnet = flag.Bool("testnet", false, "operate on the testnet Bitcoin network")

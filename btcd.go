@@ -15,9 +15,9 @@ import (
 	"runtime/debug"
 	"runtime/pprof"
 
-	"github.com/ltcsuite/ltcd/blockchain/indexers"
-	"github.com/ltcsuite/ltcd/database"
-	"github.com/ltcsuite/ltcd/limits"
+	"fakco.in/fakd/blockchain/indexers"
+	"fakco.in/fakd/database"
+	"fakco.in/fakd/limits"
 )
 
 var (

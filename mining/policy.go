@@ -5,8 +5,8 @@
 package mining
 
 import (
-	"github.com/ltcsuite/ltcd/blockchain"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/wire"
 	"github.com/ltcsuite/ltcutil"
 )
 

@@ -19,10 +19,10 @@ import (
 
 	"github.com/btcsuite/go-socks/socks"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/ltcsuite/ltcd/blockchain"
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/wire"
 )
 
 const (

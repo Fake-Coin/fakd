@@ -17,9 +17,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/database"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/database"
+	"fakco.in/fakd/wire"
 	"github.com/ltcsuite/ltcutil"
 	"github.com/btcsuite/goleveldb/leveldb"
 	ldberrors "github.com/btcsuite/goleveldb/leveldb/errors"

@@ -9,8 +9,8 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/ltcsuite/ltcd/btcjson"
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
+	"fakco.in/fakd/btcjson"
+	"fakco.in/fakd/chaincfg/chainhash"
 	"github.com/ltcsuite/ltcutil"
 )
 

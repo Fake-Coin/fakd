@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"hash/crc32"
 
-	"github.com/ltcsuite/ltcd/database"
+	"fakco.in/fakd/database"
 )
 
 // The serialized write cursor location format is:

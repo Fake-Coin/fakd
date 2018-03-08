@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ltcsuite/ltcd/database/internal/treap"
+	"fakco.in/fakd/database/internal/treap"
 	"github.com/btcsuite/goleveldb/leveldb"
 	"github.com/btcsuite/goleveldb/leveldb/iterator"
 	"github.com/btcsuite/goleveldb/leveldb/util"

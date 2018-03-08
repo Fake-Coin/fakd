@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/txscript"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/txscript"
+	"fakco.in/fakd/wire"
 	"github.com/btcsuite/btclog"
 )
 

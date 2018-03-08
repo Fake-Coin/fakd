@@ -12,14 +12,14 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/ltcsuite/ltcd/blockchain"
-	"github.com/ltcsuite/ltcd/blockchain/indexers"
-	"github.com/ltcsuite/ltcd/btcjson"
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/mining"
-	"github.com/ltcsuite/ltcd/txscript"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/blockchain/indexers"
+	"fakco.in/fakd/btcjson"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/mining"
+	"fakco.in/fakd/txscript"
+	"fakco.in/fakd/wire"
 	"github.com/ltcsuite/ltcutil"
 )
 

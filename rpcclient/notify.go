@@ -13,9 +13,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ltcsuite/ltcd/btcjson"
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/btcjson"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/wire"
 	"github.com/ltcsuite/ltcutil"
 )
 

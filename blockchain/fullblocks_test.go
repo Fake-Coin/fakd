@@ -12,14 +12,14 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ltcsuite/ltcd/blockchain"
-	"github.com/ltcsuite/ltcd/blockchain/fullblocktests"
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/database"
-	_ "github.com/ltcsuite/ltcd/database/ffldb"
-	"github.com/ltcsuite/ltcd/txscript"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/blockchain/fullblocktests"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/database"
+	_ "fakco.in/fakd/database/ffldb"
+	"fakco.in/fakd/txscript"
+	"fakco.in/fakd/wire"
 	"github.com/ltcsuite/ltcutil"
 )
 

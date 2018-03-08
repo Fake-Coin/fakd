@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 )
 
 const (

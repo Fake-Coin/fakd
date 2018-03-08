@@ -17,7 +17,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/ltcsuite/ltcd/btcec"
+	"fakco.in/fakd/btcec"
 )
 
 func main() {

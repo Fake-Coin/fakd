@@ -13,10 +13,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ltcsuite/ltcd/blockchain"
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/integration/rpctest"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/integration/rpctest"
 )
 
 const (

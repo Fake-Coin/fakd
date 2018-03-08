@@ -7,10 +7,10 @@ package indexers
 import (
 	"errors"
 
-	"github.com/ltcsuite/ltcd/blockchain"
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/database"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/database"
 	"github.com/ltcsuite/ltcutil"
 	"github.com/ltcsuite/ltcutil/gcs"
 	"github.com/ltcsuite/ltcutil/gcs/builder"

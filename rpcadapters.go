@@ -7,11 +7,11 @@ package main
 import (
 	"sync/atomic"
 
-	"github.com/ltcsuite/ltcd/blockchain"
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/mempool"
-	"github.com/ltcsuite/ltcd/peer"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/mempool"
+	"fakco.in/fakd/peer"
+	"fakco.in/fakd/wire"
 	"github.com/ltcsuite/ltcutil"
 )
 

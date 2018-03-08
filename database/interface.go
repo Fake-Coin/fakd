@@ -8,7 +8,7 @@
 package database
 
 import (
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 	"github.com/ltcsuite/ltcutil"
 )
 

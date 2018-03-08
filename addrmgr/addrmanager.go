@@ -22,8 +22,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/wire"
 )
 
 // AddrManager provides a concurrency safe address manager for caching potential

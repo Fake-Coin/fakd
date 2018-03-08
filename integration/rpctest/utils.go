@@ -8,8 +8,8 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/rpcclient"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/rpcclient"
 )
 
 // JoinType is an enum representing a particular type of "node join". A node

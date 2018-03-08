@@ -14,8 +14,8 @@ import (
 	"runtime/debug"
 	"testing"
 
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/integration/rpctest"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/integration/rpctest"
 )
 
 func testGetBestBlock(r *rpctest.Harness, t *testing.T) {

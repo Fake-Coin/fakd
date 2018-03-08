@@ -7,7 +7,7 @@ package blockchain
 import (
 	"fmt"
 
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 )
 
 // ThresholdState define the various threshold states used when voting on

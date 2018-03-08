@@ -5,8 +5,8 @@
 package mempool
 
 import (
-	"github.com/ltcsuite/ltcd/blockchain"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/wire"
 )
 
 // RuleError identifies a rule violation.  It is used to indicate that

@@ -9,8 +9,8 @@ import (
 	"errors"
 	"time"
 
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/database"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/database"
 )
 
 // fetchBlockCmd defines the configuration options for the fetchblock command.

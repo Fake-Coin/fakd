@@ -12,9 +12,9 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/database"
-	"github.com/ltcsuite/ltcd/database/ffldb"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/database"
+	"fakco.in/fakd/database/ffldb"
 	"github.com/ltcsuite/ltcutil"
 )
 

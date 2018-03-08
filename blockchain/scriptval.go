@@ -10,8 +10,8 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/ltcsuite/ltcd/txscript"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/txscript"
+	"fakco.in/fakd/wire"
 	"github.com/ltcsuite/ltcutil"
 )
 

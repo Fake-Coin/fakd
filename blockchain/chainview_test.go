@@ -10,7 +10,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/wire"
 )
 
 // testNoncePrng provides a deterministic prng for the nonce in generated fake

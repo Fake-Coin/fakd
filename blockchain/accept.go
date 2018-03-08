@@ -5,7 +5,7 @@
 package blockchain
 
 import (
-	"github.com/ltcsuite/ltcd/database"
+	"fakco.in/fakd/database"
 	"github.com/ltcsuite/ltcutil"
 )
 

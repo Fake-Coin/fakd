@@ -10,10 +10,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/ltcsuite/ltcd/blockchain"
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/database"
-	_ "github.com/ltcsuite/ltcd/database/ffldb"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/database"
+	_ "fakco.in/fakd/database/ffldb"
 	"github.com/ltcsuite/ltcutil"
 )
 

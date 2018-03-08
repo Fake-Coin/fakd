@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/database"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/database"
 	"github.com/ltcsuite/ltcutil"
 )
 

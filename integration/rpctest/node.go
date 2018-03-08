@@ -14,7 +14,7 @@ import (
 	"runtime"
 	"time"
 
-	rpc "github.com/ltcsuite/ltcd/rpcclient"
+	rpc "fakco.in/fakd/rpcclient"
 	"github.com/ltcsuite/ltcutil"
 )
 

@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/wire"
 )
 
 // addrIndexBucket provides a mock address index database bucket by implementing

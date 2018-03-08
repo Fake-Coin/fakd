@@ -12,7 +12,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ltcsuite/ltcd/btcjson"
+	"fakco.in/fakd/btcjson"
 )
 
 // TestChainSvrWsCmds tests all of the chain server websocket-specific commands

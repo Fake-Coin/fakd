@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
+	"fakco.in/fakd/chaincfg/chainhash"
 )
 
 // MsgGetCFHeaders is a message similar to MsgGetHeaders, but for committed

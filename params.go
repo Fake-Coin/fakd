@@ -5,8 +5,8 @@
 package main
 
 import (
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/wire"
 )
 
 // activeNetParams is a pointer to the parameters specific to the

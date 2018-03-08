@@ -10,8 +10,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ltcsuite/ltcd/rpcclient"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/rpcclient"
+	"fakco.in/fakd/wire"
 	"github.com/ltcsuite/ltcutil"
 )
 

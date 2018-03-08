@@ -10,8 +10,8 @@ package indexers
 import (
 	"encoding/binary"
 
-	"github.com/ltcsuite/ltcd/blockchain"
-	"github.com/ltcsuite/ltcd/database"
+	"fakco.in/fakd/blockchain"
+	"fakco.in/fakd/database"
 	"github.com/ltcsuite/ltcutil"
 )
 

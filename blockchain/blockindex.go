@@ -10,10 +10,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ltcsuite/ltcd/chaincfg"
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/database"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/chaincfg"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/database"
+	"fakco.in/fakd/wire"
 )
 
 // blockNode represents a block within the block chain and is primarily used to

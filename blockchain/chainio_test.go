@@ -11,9 +11,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/ltcsuite/ltcd/chaincfg/chainhash"
-	"github.com/ltcsuite/ltcd/database"
-	"github.com/ltcsuite/ltcd/wire"
+	"fakco.in/fakd/chaincfg/chainhash"
+	"fakco.in/fakd/database"
+	"fakco.in/fakd/wire"
 )
 
 // TestErrNotInMainChain ensures the functions related to errNotInMainChain work
