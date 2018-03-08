@@ -40,7 +40,7 @@ var (
 
 // -----------------------------------------------------------------------------
 // The transaction index consists of an entry for every transaction in the main
-// chain.  In order to significanly optimize the space requirements a separate
+// chain.  In order to significantly optimize the space requirements a separate
 // index which provides an internal mapping between each block that has been
 // indexed and a unique ID for use within the hash to location mappings.  The ID
 // is simply a sequentially incremented uint32.  This is useful because it is
@@ -469,10 +469,11 @@ func dropBlockIDIndex(db database.DB) error {
 // DropTxIndex drops the transaction index from the provided database if it
 // exists.  Since the address index relies on it, the address index will also be
 // dropped when it exists.
-func DropTxIndex(db database.DB) error {
-	if err := dropIndex(db, addrIndexKey, addrIndexName); err != nil {
+func DropTxIndex(db database.DB, interrupt <-chan struct{}) error {
+	err := dropIndex(db, addrIndexKey, addrIndexName, interrupt)
+	if err != nil {
 		return err
 	}
 
-	return dropIndex(db, txIndexKey, txIndexName)
+	return dropIndex(db, txIndexKey, txIndexName, interrupt)
 }

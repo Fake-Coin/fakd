@@ -57,7 +57,7 @@ func ltcdMain(serverChan chan<- *server) error {
 	// Get a channel that will be closed when a shutdown signal has been
 	// triggered either from an OS signal such as SIGINT (Ctrl+C) or from
 	// another subsystem such as the RPC server.
-	interruptedChan := interruptListener()
+	interrupt := interruptListener()
 	defer ltcdLog.Info("Shutdown complete")
 
 	// Show version at startup.
@@ -94,7 +94,7 @@ func ltcdMain(serverChan chan<- *server) error {
 	}
 
 	// Return now if an interrupt signal was triggered.
-	if interruptRequested(interruptedChan) {
+	if interruptRequested(interrupt) {
 		return nil
 	}
 
@@ -111,7 +111,7 @@ func ltcdMain(serverChan chan<- *server) error {
 	}()
 
 	// Return now if an interrupt signal was triggered.
-	if interruptRequested(interruptedChan) {
+	if interruptRequested(interrupt) {
 		return nil
 	}
 
@@ -120,7 +120,7 @@ func ltcdMain(serverChan chan<- *server) error {
 	// NOTE: The order is important here because dropping the tx index also
 	// drops the address index since it relies on it.
 	if cfg.DropAddrIndex {
-		if err := indexers.DropAddrIndex(db); err != nil {
+		if err := indexers.DropAddrIndex(db, interrupt); err != nil {
 			ltcdLog.Errorf("%v", err)
 			return err
 		}
@@ -128,7 +128,7 @@ func ltcdMain(serverChan chan<- *server) error {
 		return nil
 	}
 	if cfg.DropTxIndex {
-		if err := indexers.DropTxIndex(db); err != nil {
+		if err := indexers.DropTxIndex(db, interrupt); err != nil {
 			ltcdLog.Errorf("%v", err)
 			return err
 		}
@@ -136,7 +136,7 @@ func ltcdMain(serverChan chan<- *server) error {
 		return nil
 	}
 	if cfg.DropCfIndex {
-		if err := indexers.DropCfIndex(db); err != nil {
+		if err := indexers.DropCfIndex(db, interrupt); err != nil {
 			ltcdLog.Errorf("%v", err)
 			return err
 		}
@@ -145,7 +145,8 @@ func ltcdMain(serverChan chan<- *server) error {
 	}
 
 	// Create server and start it.
-	server, err := newServer(cfg.Listeners, db, activeNetParams.Params)
+	server, err := newServer(cfg.Listeners, db, activeNetParams.Params,
+		interrupt)
 	if err != nil {
 		// TODO: this logging could do with some beautifying.
 		ltcdLog.Errorf("Unable to start server on %v: %v",
@@ -166,7 +167,7 @@ func ltcdMain(serverChan chan<- *server) error {
 	// Wait until the interrupt signal is received from an OS signal or
 	// shutdown is requested through one of the subsystems such as the RPC
 	// server.
-	<-interruptedChan
+	<-interrupt
 	return nil
 }
 
@@ -209,10 +210,10 @@ func blockDbPath(dbType string) string {
 	return dbPath
 }
 
-// warnMultipeDBs shows a warning if multiple block database types are detected.
+// warnMultipleDBs shows a warning if multiple block database types are detected.
 // This is not a situation most users want.  It is handy for development however
 // to support multiple side-by-side databases.
-func warnMultipeDBs() {
+func warnMultipleDBs() {
 	// This is intentionally not using the known db types which depend
 	// on the database types compiled into the binary since we want to
 	// detect legacy db types as well.
@@ -260,7 +261,7 @@ func loadBlockDB() (database.DB, error) {
 		return db, nil
 	}
 
-	warnMultipeDBs()
+	warnMultipleDBs()
 
 	// The database name is based on the database type.
 	dbPath := blockDbPath(cfg.DbType)
