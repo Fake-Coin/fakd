@@ -822,7 +822,7 @@ func (a *AddrManager) Attempt(addr *wire.NetAddress) {
 	}
 	// set last tried time to now
 	ka.attempts++
-	ka.lastattempt = time.Now()
+	ka.setLastAttempt(time.Now())
 }
 
 // Connected Marks the given address as currently connected and working at the

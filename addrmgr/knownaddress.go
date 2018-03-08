@@ -5,6 +5,7 @@
 package addrmgr
 
 import (
+	"sync"
 	"time"
 
 	"fakco.in/fakd/wire"
@@ -13,10 +14,13 @@ import (
 // KnownAddress tracks information about a known network address that is used
 // to determine how viable an address is.
 type KnownAddress struct {
-	na          *wire.NetAddress
-	srcAddr     *wire.NetAddress
-	attempts    int
+	na       *wire.NetAddress
+	srcAddr  *wire.NetAddress
+	attempts int
+
+	mu          sync.RWMutex
 	lastattempt time.Time
+
 	lastsuccess time.Time
 	tried       bool
 	refs        int // reference count of new buckets
@@ -30,13 +34,24 @@ func (ka *KnownAddress) NetAddress() *wire.NetAddress {
 
 // LastAttempt returns the last time the known address was attempted.
 func (ka *KnownAddress) LastAttempt() time.Time {
+	ka.mu.RLock()
+	defer ka.mu.RUnlock()
 	return ka.lastattempt
+}
+
+func (ka *KnownAddress) setLastAttempt(t time.Time) {
+	ka.mu.Lock()
+	defer ka.mu.Unlock()
+	ka.lastattempt = t
 }
 
 // chance returns the selection probability for a known address.  The priority
 // depends upon how recently the address has been seen, how recently it was last
 // attempted and how often attempts to connect to it have failed.
 func (ka *KnownAddress) chance() float64 {
+	ka.mu.RLock()
+	defer ka.mu.RUnlock()
+
 	now := time.Now()
 	lastAttempt := now.Sub(ka.lastattempt)
 
@@ -68,6 +83,9 @@ func (ka *KnownAddress) chance() float64 {
 // All addresses that meet these criteria are assumed to be worthless and not
 // worth keeping hold of.
 func (ka *KnownAddress) isBad() bool {
+	ka.mu.RLock()
+	defer ka.mu.RUnlock()
+
 	if ka.lastattempt.After(time.Now().Add(-1 * time.Minute)) {
 		return false
 	}
