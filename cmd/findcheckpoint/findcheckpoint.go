@@ -122,7 +122,7 @@ func findCandidates(chain *blockchain.BlockChain, latestHash *chainhash.Hash) ([
 // uses the format the btcchain code expects for checkpoints added to the list.
 func showCandidate(candidateNum int, checkpoint *chaincfg.Checkpoint) {
 	if cfg.UseGoOutput {
-		fmt.Printf("Candidate %d -- {%d, newShaHashFromStr(\"%v\")},\n",
+		fmt.Printf("Candidate %d -- {%d, newHashFromStr(\"%v\")},\n",
 			candidateNum, checkpoint.Height, checkpoint.Hash)
 		return
 	}

@@ -24,7 +24,7 @@ const (
 )
 
 var (
-	ltcdHomeDir     = fakutil.AppDataDir("ltcd", false)
+	ltcdHomeDir     = fakutil.AppDataDir("fakd", false)
 	defaultDataDir  = filepath.Join(ltcdHomeDir, "data")
 	knownDbTypes    = database.SupportedDrivers()
 	activeNetParams = &chaincfg.MainNetParams

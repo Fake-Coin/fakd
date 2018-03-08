@@ -13,9 +13,9 @@ import (
 	"regexp"
 	"strings"
 
-	flags "github.com/jessevdk/go-flags"
 	"fakco.in/fakd/btcjson"
 	"fakco.in/fakutil"
+	flags "github.com/jessevdk/go-flags"
 )
 
 const (
@@ -26,10 +26,10 @@ const (
 )
 
 var (
-	ltcdHomeDir           = fakutil.AppDataDir("ltcd", false)
-	ltcctlHomeDir         = fakutil.AppDataDir("ltcctl", false)
-	ltcwalletHomeDir      = fakutil.AppDataDir("ltcwallet", false)
-	defaultConfigFile     = filepath.Join(ltcctlHomeDir, "ltcctl.conf")
+	ltcdHomeDir           = fakutil.AppDataDir("fakd", false)
+	ltcctlHomeDir         = fakutil.AppDataDir("fakctl", false)
+	ltcwalletHomeDir      = fakutil.AppDataDir("fakwallet", false)
+	defaultConfigFile     = filepath.Join(ltcctlHomeDir, "fakctl.conf")
 	defaultRPCServer      = "localhost"
 	defaultRPCCertFile    = filepath.Join(ltcdHomeDir, "rpc.cert")
 	defaultWalletCertFile = filepath.Join(ltcwalletHomeDir, "rpc.cert")
@@ -214,9 +214,9 @@ func loadConfig() (*config, []string, error) {
 		// Use config file for RPC server to create default btcctl config
 		var serverConfigPath string
 		if preCfg.Wallet {
-			serverConfigPath = filepath.Join(ltcwalletHomeDir, "ltcwallet.conf")
+			serverConfigPath = filepath.Join(ltcwalletHomeDir, "fakwallet.conf")
 		} else {
-			serverConfigPath = filepath.Join(ltcdHomeDir, "ltcd.conf")
+			serverConfigPath = filepath.Join(ltcdHomeDir, "fakd.conf")
 		}
 
 		err := createDefaultConfigFile(preCfg.ConfigFile, serverConfigPath)
