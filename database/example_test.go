@@ -14,7 +14,7 @@ import (
 	"fakco.in/fakd/database"
 	_ "fakco.in/fakd/database/ffldb"
 	"fakco.in/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 // This example demonstrates creating a new database.
@@ -136,7 +136,7 @@ func Example_blockStorageAndRetrieval() {
 	// and example.
 	err = db.Update(func(tx database.Tx) error {
 		genesisBlock := chaincfg.MainNetParams.GenesisBlock
-		return tx.StoreBlock(ltcutil.NewBlock(genesisBlock))
+		return tx.StoreBlock(fakutil.NewBlock(genesisBlock))
 	})
 	if err != nil {
 		fmt.Println(err)

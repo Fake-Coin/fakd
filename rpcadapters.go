@@ -10,10 +10,10 @@ import (
 	"fakco.in/fakd/blockchain"
 	"fakco.in/fakd/chaincfg/chainhash"
 	"fakco.in/fakd/mempool"
-	"github.com/btcsuite/btcd/netsync"
+	"fakco.in/fakd/netsync"
 	"fakco.in/fakd/peer"
 	"fakco.in/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 // rpcPeer provides a peer for use with the RPC server and implements the
@@ -247,7 +247,7 @@ func (b *rpcSyncMgr) IsCurrent() bool {
 //
 // This function is safe for concurrent access and is part of the
 // rpcserverSyncManager interface implementation.
-func (b *rpcSyncMgr) SubmitBlock(block *ltcutil.Block, flags blockchain.BehaviorFlags) (bool, error) {
+func (b *rpcSyncMgr) SubmitBlock(block *fakutil.Block, flags blockchain.BehaviorFlags) (bool, error) {
 	return b.syncMgr.ProcessBlock(block, flags)
 }
 

@@ -18,7 +18,7 @@ import (
 	"fakco.in/fakd/mempool"
 	peerpkg "fakco.in/fakd/peer"
 	"fakco.in/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 const (
@@ -56,7 +56,7 @@ type newPeerMsg struct {
 // blockMsg packages a bitcoin block message and the peer it came from together
 // so the block handler has access to that information.
 type blockMsg struct {
-	block *ltcutil.Block
+	block *fakutil.Block
 	peer  *peerpkg.Peer
 	reply chan struct{}
 }
@@ -83,7 +83,7 @@ type donePeerMsg struct {
 // txMsg packages a bitcoin tx message and the peer it came from together
 // so the block handler has access to that information.
 type txMsg struct {
-	tx    *ltcutil.Tx
+	tx    *fakutil.Tx
 	peer  *peerpkg.Peer
 	reply chan struct{}
 }
@@ -107,7 +107,7 @@ type processBlockResponse struct {
 // extra handling whereas this message essentially is just a concurrent safe
 // way to call ProcessBlock on the internal block chain instance.
 type processBlockMsg struct {
-	block *ltcutil.Block
+	block *fakutil.Block
 	flags blockchain.BehaviorFlags
 	reply chan processBlockResponse
 }
@@ -132,18 +132,6 @@ type pauseMsg struct {
 type headerNode struct {
 	height int32
 	hash   *chainhash.Hash
-}
-
-// PeerNotifier exposes methods to notify peers of status changes to
-// transactions, blocks, etc. Currently server implements this interface.
-type PeerNotifier interface {
-	AnnounceNewTransactions(newTxs []*mempool.TxDesc)
-
-	UpdatePeerHeights(latestBlkHash *chainhash.Hash, latestHeight int32, updateSource *peerpkg.Peer)
-
-	RelayInventory(invVect *wire.InvVect, data interface{})
-
-	TransactionConfirmed(tx *ltcutil.Tx)
 }
 
 // blockManangerConfig is a configuration struct used to initialize a new
@@ -1244,7 +1232,7 @@ func (sm *SyncManager) handleBlockchainNotification(notification *blockchain.Not
 			return
 		}
 
-		block, ok := notification.Data.(*ltcutil.Block)
+		block, ok := notification.Data.(*fakutil.Block)
 		if !ok {
 			log.Warnf("Chain accepted notification is not a block.")
 			break
@@ -1256,7 +1244,7 @@ func (sm *SyncManager) handleBlockchainNotification(notification *blockchain.Not
 
 	// A block has been connected to the main block chain.
 	case blockchain.NTBlockConnected:
-		block, ok := notification.Data.(*ltcutil.Block)
+		block, ok := notification.Data.(*fakutil.Block)
 		if !ok {
 			log.Warnf("Chain connected notification is not a block.")
 			break
@@ -1280,7 +1268,7 @@ func (sm *SyncManager) handleBlockchainNotification(notification *blockchain.Not
 
 	// A block has been disconnected from the main block chain.
 	case blockchain.NTBlockDisconnected:
-		block, ok := notification.Data.(*ltcutil.Block)
+		block, ok := notification.Data.(*fakutil.Block)
 		if !ok {
 			log.Warnf("Chain disconnected notification is not a block.")
 			break
@@ -1313,7 +1301,7 @@ func (sm *SyncManager) NewPeer(peer *peerpkg.Peer) {
 // QueueTx adds the passed transaction message and peer to the block handling
 // queue. Responds to the done channel argument after the tx message is
 // processed.
-func (sm *SyncManager) QueueTx(tx *ltcutil.Tx, peer *peerpkg.Peer, done chan struct{}) {
+func (sm *SyncManager) QueueTx(tx *fakutil.Tx, peer *peerpkg.Peer, done chan struct{}) {
 	// Don't accept more transactions if we're shutting down.
 	if atomic.LoadInt32(&sm.shutdown) != 0 {
 		done <- struct{}{}
@@ -1326,7 +1314,7 @@ func (sm *SyncManager) QueueTx(tx *ltcutil.Tx, peer *peerpkg.Peer, done chan str
 // QueueBlock adds the passed block message and peer to the block handling
 // queue. Responds to the done channel argument after the block message is
 // processed.
-func (sm *SyncManager) QueueBlock(block *ltcutil.Block, peer *peerpkg.Peer, done chan struct{}) {
+func (sm *SyncManager) QueueBlock(block *fakutil.Block, peer *peerpkg.Peer, done chan struct{}) {
 	// Don't accept more blocks if we're shutting down.
 	if atomic.LoadInt32(&sm.shutdown) != 0 {
 		done <- struct{}{}
@@ -1405,7 +1393,7 @@ func (sm *SyncManager) SyncPeerID() int32 {
 
 // ProcessBlock makes use of ProcessBlock on an internal instance of a block
 // chain.
-func (sm *SyncManager) ProcessBlock(block *ltcutil.Block, flags blockchain.BehaviorFlags) (bool, error) {
+func (sm *SyncManager) ProcessBlock(block *fakutil.Block, flags blockchain.BehaviorFlags) (bool, error) {
 	reply := make(chan processBlockResponse, 1)
 	sm.msgChan <- processBlockMsg{block: block, flags: flags, reply: reply}
 	response := <-reply

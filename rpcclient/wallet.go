@@ -12,7 +12,7 @@ import (
 	"fakco.in/fakd/chaincfg"
 	"fakco.in/fakd/chaincfg/chainhash"
 	"fakco.in/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 // *****************************
@@ -202,7 +202,7 @@ func (c *Client) ListUnspentMinMaxAsync(minConf, maxConf int) FutureListUnspentR
 // function on the returned instance.
 //
 // See ListUnspentMinMaxAddresses for the blocking version and more details.
-func (c *Client) ListUnspentMinMaxAddressesAsync(minConf, maxConf int, addrs []ltcutil.Address) FutureListUnspentResult {
+func (c *Client) ListUnspentMinMaxAddressesAsync(minConf, maxConf int, addrs []fakutil.Address) FutureListUnspentResult {
 	addrStrs := make([]string, 0, len(addrs))
 	for _, a := range addrs {
 		addrStrs = append(addrStrs, a.EncodeAddress())
@@ -236,7 +236,7 @@ func (c *Client) ListUnspentMinMax(minConf, maxConf int) ([]btcjson.ListUnspentR
 // ListUnspentMinMaxAddresses returns all unspent transaction outputs that pay
 // to any of specified addresses in a wallet using the specified number of
 // minimum and maximum number of confirmations as a filter.
-func (c *Client) ListUnspentMinMaxAddresses(minConf, maxConf int, addrs []ltcutil.Address) ([]btcjson.ListUnspentResult, error) {
+func (c *Client) ListUnspentMinMaxAddresses(minConf, maxConf int, addrs []fakutil.Address) ([]btcjson.ListUnspentResult, error) {
 	return c.ListUnspentMinMaxAddressesAsync(minConf, maxConf, addrs).Receive()
 }
 
@@ -431,14 +431,14 @@ func (r FutureSetTxFeeResult) Receive() error {
 // returned instance.
 //
 // See SetTxFee for the blocking version and more details.
-func (c *Client) SetTxFeeAsync(fee ltcutil.Amount) FutureSetTxFeeResult {
+func (c *Client) SetTxFeeAsync(fee fakutil.Amount) FutureSetTxFeeResult {
 	cmd := btcjson.NewSetTxFeeCmd(fee.ToBTC())
 	return c.sendCmd(cmd)
 }
 
 // SetTxFee sets an optional transaction fee per KB that helps ensure
 // transactions are processed quickly.  Most transaction are 1KB.
-func (c *Client) SetTxFee(fee ltcutil.Amount) error {
+func (c *Client) SetTxFee(fee fakutil.Amount) error {
 	return c.SetTxFeeAsync(fee).Receive()
 }
 
@@ -469,7 +469,7 @@ func (r FutureSendToAddressResult) Receive() (*chainhash.Hash, error) {
 // returned instance.
 //
 // See SendToAddress for the blocking version and more details.
-func (c *Client) SendToAddressAsync(address ltcutil.Address, amount ltcutil.Amount) FutureSendToAddressResult {
+func (c *Client) SendToAddressAsync(address fakutil.Address, amount fakutil.Amount) FutureSendToAddressResult {
 	addr := address.EncodeAddress()
 	cmd := btcjson.NewSendToAddressCmd(addr, amount.ToBTC(), nil, nil)
 	return c.sendCmd(cmd)
@@ -483,7 +483,7 @@ func (c *Client) SendToAddressAsync(address ltcutil.Address, amount ltcutil.Amou
 //
 // NOTE: This function requires to the wallet to be unlocked.  See the
 // WalletPassphrase function for more details.
-func (c *Client) SendToAddress(address ltcutil.Address, amount ltcutil.Amount) (*chainhash.Hash, error) {
+func (c *Client) SendToAddress(address fakutil.Address, amount fakutil.Amount) (*chainhash.Hash, error) {
 	return c.SendToAddressAsync(address, amount).Receive()
 }
 
@@ -492,8 +492,8 @@ func (c *Client) SendToAddress(address ltcutil.Address, amount ltcutil.Amount) (
 // function on the returned instance.
 //
 // See SendToAddressComment for the blocking version and more details.
-func (c *Client) SendToAddressCommentAsync(address ltcutil.Address,
-	amount ltcutil.Amount, comment,
+func (c *Client) SendToAddressCommentAsync(address fakutil.Address,
+	amount fakutil.Amount, comment,
 	commentTo string) FutureSendToAddressResult {
 
 	addr := address.EncodeAddress()
@@ -514,7 +514,7 @@ func (c *Client) SendToAddressCommentAsync(address ltcutil.Address,
 //
 // NOTE: This function requires to the wallet to be unlocked.  See the
 // WalletPassphrase function for more details.
-func (c *Client) SendToAddressComment(address ltcutil.Address, amount ltcutil.Amount, comment, commentTo string) (*chainhash.Hash, error) {
+func (c *Client) SendToAddressComment(address fakutil.Address, amount fakutil.Amount, comment, commentTo string) (*chainhash.Hash, error) {
 	return c.SendToAddressCommentAsync(address, amount, comment,
 		commentTo).Receive()
 }
@@ -548,7 +548,7 @@ func (r FutureSendFromResult) Receive() (*chainhash.Hash, error) {
 // returned instance.
 //
 // See SendFrom for the blocking version and more details.
-func (c *Client) SendFromAsync(fromAccount string, toAddress ltcutil.Address, amount ltcutil.Amount) FutureSendFromResult {
+func (c *Client) SendFromAsync(fromAccount string, toAddress fakutil.Address, amount fakutil.Amount) FutureSendFromResult {
 	addr := toAddress.EncodeAddress()
 	cmd := btcjson.NewSendFromCmd(fromAccount, addr, amount.ToBTC(), nil,
 		nil, nil)
@@ -563,7 +563,7 @@ func (c *Client) SendFromAsync(fromAccount string, toAddress ltcutil.Address, am
 //
 // NOTE: This function requires to the wallet to be unlocked.  See the
 // WalletPassphrase function for more details.
-func (c *Client) SendFrom(fromAccount string, toAddress ltcutil.Address, amount ltcutil.Amount) (*chainhash.Hash, error) {
+func (c *Client) SendFrom(fromAccount string, toAddress fakutil.Address, amount fakutil.Amount) (*chainhash.Hash, error) {
 	return c.SendFromAsync(fromAccount, toAddress, amount).Receive()
 }
 
@@ -572,7 +572,7 @@ func (c *Client) SendFrom(fromAccount string, toAddress ltcutil.Address, amount 
 // the returned instance.
 //
 // See SendFromMinConf for the blocking version and more details.
-func (c *Client) SendFromMinConfAsync(fromAccount string, toAddress ltcutil.Address, amount ltcutil.Amount, minConfirms int) FutureSendFromResult {
+func (c *Client) SendFromMinConfAsync(fromAccount string, toAddress fakutil.Address, amount fakutil.Amount, minConfirms int) FutureSendFromResult {
 	addr := toAddress.EncodeAddress()
 	cmd := btcjson.NewSendFromCmd(fromAccount, addr, amount.ToBTC(),
 		&minConfirms, nil, nil)
@@ -588,7 +588,7 @@ func (c *Client) SendFromMinConfAsync(fromAccount string, toAddress ltcutil.Addr
 //
 // NOTE: This function requires to the wallet to be unlocked.  See the
 // WalletPassphrase function for more details.
-func (c *Client) SendFromMinConf(fromAccount string, toAddress ltcutil.Address, amount ltcutil.Amount, minConfirms int) (*chainhash.Hash, error) {
+func (c *Client) SendFromMinConf(fromAccount string, toAddress fakutil.Address, amount fakutil.Amount, minConfirms int) (*chainhash.Hash, error) {
 	return c.SendFromMinConfAsync(fromAccount, toAddress, amount,
 		minConfirms).Receive()
 }
@@ -599,7 +599,7 @@ func (c *Client) SendFromMinConf(fromAccount string, toAddress ltcutil.Address, 
 //
 // See SendFromComment for the blocking version and more details.
 func (c *Client) SendFromCommentAsync(fromAccount string,
-	toAddress ltcutil.Address, amount ltcutil.Amount, minConfirms int,
+	toAddress fakutil.Address, amount fakutil.Amount, minConfirms int,
 	comment, commentTo string) FutureSendFromResult {
 
 	addr := toAddress.EncodeAddress()
@@ -619,8 +619,8 @@ func (c *Client) SendFromCommentAsync(fromAccount string,
 //
 // NOTE: This function requires to the wallet to be unlocked.  See the
 // WalletPassphrase function for more details.
-func (c *Client) SendFromComment(fromAccount string, toAddress ltcutil.Address,
-	amount ltcutil.Amount, minConfirms int,
+func (c *Client) SendFromComment(fromAccount string, toAddress fakutil.Address,
+	amount fakutil.Amount, minConfirms int,
 	comment, commentTo string) (*chainhash.Hash, error) {
 
 	return c.SendFromCommentAsync(fromAccount, toAddress, amount,
@@ -656,7 +656,7 @@ func (r FutureSendManyResult) Receive() (*chainhash.Hash, error) {
 // returned instance.
 //
 // See SendMany for the blocking version and more details.
-func (c *Client) SendManyAsync(fromAccount string, amounts map[ltcutil.Address]ltcutil.Amount) FutureSendManyResult {
+func (c *Client) SendManyAsync(fromAccount string, amounts map[fakutil.Address]fakutil.Amount) FutureSendManyResult {
 	convertedAmounts := make(map[string]float64, len(amounts))
 	for addr, amount := range amounts {
 		convertedAmounts[addr.EncodeAddress()] = amount.ToBTC()
@@ -673,7 +673,7 @@ func (c *Client) SendManyAsync(fromAccount string, amounts map[ltcutil.Address]l
 //
 // NOTE: This function requires to the wallet to be unlocked.  See the
 // WalletPassphrase function for more details.
-func (c *Client) SendMany(fromAccount string, amounts map[ltcutil.Address]ltcutil.Amount) (*chainhash.Hash, error) {
+func (c *Client) SendMany(fromAccount string, amounts map[fakutil.Address]fakutil.Amount) (*chainhash.Hash, error) {
 	return c.SendManyAsync(fromAccount, amounts).Receive()
 }
 
@@ -683,7 +683,7 @@ func (c *Client) SendMany(fromAccount string, amounts map[ltcutil.Address]ltcuti
 //
 // See SendManyMinConf for the blocking version and more details.
 func (c *Client) SendManyMinConfAsync(fromAccount string,
-	amounts map[ltcutil.Address]ltcutil.Amount,
+	amounts map[fakutil.Address]fakutil.Amount,
 	minConfirms int) FutureSendManyResult {
 
 	convertedAmounts := make(map[string]float64, len(amounts))
@@ -705,7 +705,7 @@ func (c *Client) SendManyMinConfAsync(fromAccount string,
 // NOTE: This function requires to the wallet to be unlocked.  See the
 // WalletPassphrase function for more details.
 func (c *Client) SendManyMinConf(fromAccount string,
-	amounts map[ltcutil.Address]ltcutil.Amount,
+	amounts map[fakutil.Address]fakutil.Amount,
 	minConfirms int) (*chainhash.Hash, error) {
 
 	return c.SendManyMinConfAsync(fromAccount, amounts, minConfirms).Receive()
@@ -717,7 +717,7 @@ func (c *Client) SendManyMinConf(fromAccount string,
 //
 // See SendManyComment for the blocking version and more details.
 func (c *Client) SendManyCommentAsync(fromAccount string,
-	amounts map[ltcutil.Address]ltcutil.Amount, minConfirms int,
+	amounts map[fakutil.Address]fakutil.Amount, minConfirms int,
 	comment string) FutureSendManyResult {
 
 	convertedAmounts := make(map[string]float64, len(amounts))
@@ -740,7 +740,7 @@ func (c *Client) SendManyCommentAsync(fromAccount string,
 // NOTE: This function requires to the wallet to be unlocked.  See the
 // WalletPassphrase function for more details.
 func (c *Client) SendManyComment(fromAccount string,
-	amounts map[ltcutil.Address]ltcutil.Amount, minConfirms int,
+	amounts map[fakutil.Address]fakutil.Amount, minConfirms int,
 	comment string) (*chainhash.Hash, error) {
 
 	return c.SendManyCommentAsync(fromAccount, amounts, minConfirms,
@@ -758,7 +758,7 @@ type FutureAddMultisigAddressResult chan *response
 // Receive waits for the response promised by the future and returns the
 // multisignature address that requires the specified number of signatures for
 // the provided addresses.
-func (r FutureAddMultisigAddressResult) Receive() (ltcutil.Address, error) {
+func (r FutureAddMultisigAddressResult) Receive() (fakutil.Address, error) {
 	res, err := receiveFuture(r)
 	if err != nil {
 		return nil, err
@@ -771,7 +771,7 @@ func (r FutureAddMultisigAddressResult) Receive() (ltcutil.Address, error) {
 		return nil, err
 	}
 
-	return ltcutil.DecodeAddress(addr, &chaincfg.MainNetParams)
+	return fakutil.DecodeAddress(addr, &chaincfg.MainNetParams)
 }
 
 // AddMultisigAddressAsync returns an instance of a type that can be used to get
@@ -779,7 +779,7 @@ func (r FutureAddMultisigAddressResult) Receive() (ltcutil.Address, error) {
 // the returned instance.
 //
 // See AddMultisigAddress for the blocking version and more details.
-func (c *Client) AddMultisigAddressAsync(requiredSigs int, addresses []ltcutil.Address, account string) FutureAddMultisigAddressResult {
+func (c *Client) AddMultisigAddressAsync(requiredSigs int, addresses []fakutil.Address, account string) FutureAddMultisigAddressResult {
 	addrs := make([]string, 0, len(addresses))
 	for _, addr := range addresses {
 		addrs = append(addrs, addr.String())
@@ -791,7 +791,7 @@ func (c *Client) AddMultisigAddressAsync(requiredSigs int, addresses []ltcutil.A
 
 // AddMultisigAddress adds a multisignature address that requires the specified
 // number of signatures for the provided addresses to the wallet.
-func (c *Client) AddMultisigAddress(requiredSigs int, addresses []ltcutil.Address, account string) (ltcutil.Address, error) {
+func (c *Client) AddMultisigAddress(requiredSigs int, addresses []fakutil.Address, account string) (fakutil.Address, error) {
 	return c.AddMultisigAddressAsync(requiredSigs, addresses,
 		account).Receive()
 }
@@ -823,7 +823,7 @@ func (r FutureCreateMultisigResult) Receive() (*btcjson.CreateMultiSigResult, er
 // the returned instance.
 //
 // See CreateMultisig for the blocking version and more details.
-func (c *Client) CreateMultisigAsync(requiredSigs int, addresses []ltcutil.Address) FutureCreateMultisigResult {
+func (c *Client) CreateMultisigAsync(requiredSigs int, addresses []fakutil.Address) FutureCreateMultisigResult {
 	addrs := make([]string, 0, len(addresses))
 	for _, addr := range addresses {
 		addrs = append(addrs, addr.String())
@@ -836,7 +836,7 @@ func (c *Client) CreateMultisigAsync(requiredSigs int, addresses []ltcutil.Addre
 // CreateMultisig creates a multisignature address that requires the specified
 // number of signatures for the provided addresses and returns the
 // multisignature address and script needed to redeem it.
-func (c *Client) CreateMultisig(requiredSigs int, addresses []ltcutil.Address) (*btcjson.CreateMultiSigResult, error) {
+func (c *Client) CreateMultisig(requiredSigs int, addresses []fakutil.Address) (*btcjson.CreateMultiSigResult, error) {
 	return c.CreateMultisigAsync(requiredSigs, addresses).Receive()
 }
 
@@ -872,7 +872,7 @@ type FutureGetNewAddressResult chan *response
 
 // Receive waits for the response promised by the future and returns a new
 // address.
-func (r FutureGetNewAddressResult) Receive() (ltcutil.Address, error) {
+func (r FutureGetNewAddressResult) Receive() (fakutil.Address, error) {
 	res, err := receiveFuture(r)
 	if err != nil {
 		return nil, err
@@ -885,7 +885,7 @@ func (r FutureGetNewAddressResult) Receive() (ltcutil.Address, error) {
 		return nil, err
 	}
 
-	return ltcutil.DecodeAddress(addr, &chaincfg.MainNetParams)
+	return fakutil.DecodeAddress(addr, &chaincfg.MainNetParams)
 }
 
 // GetNewAddressAsync returns an instance of a type that can be used to get the
@@ -899,7 +899,7 @@ func (c *Client) GetNewAddressAsync(account string) FutureGetNewAddressResult {
 }
 
 // GetNewAddress returns a new address.
-func (c *Client) GetNewAddress(account string) (ltcutil.Address, error) {
+func (c *Client) GetNewAddress(account string) (fakutil.Address, error) {
 	return c.GetNewAddressAsync(account).Receive()
 }
 
@@ -910,7 +910,7 @@ type FutureGetRawChangeAddressResult chan *response
 // Receive waits for the response promised by the future and returns a new
 // address for receiving change that will be associated with the provided
 // account.  Note that this is only for raw transactions and NOT for normal use.
-func (r FutureGetRawChangeAddressResult) Receive() (ltcutil.Address, error) {
+func (r FutureGetRawChangeAddressResult) Receive() (fakutil.Address, error) {
 	res, err := receiveFuture(r)
 	if err != nil {
 		return nil, err
@@ -923,7 +923,7 @@ func (r FutureGetRawChangeAddressResult) Receive() (ltcutil.Address, error) {
 		return nil, err
 	}
 
-	return ltcutil.DecodeAddress(addr, &chaincfg.MainNetParams)
+	return fakutil.DecodeAddress(addr, &chaincfg.MainNetParams)
 }
 
 // GetRawChangeAddressAsync returns an instance of a type that can be used to
@@ -939,7 +939,7 @@ func (c *Client) GetRawChangeAddressAsync(account string) FutureGetRawChangeAddr
 // GetRawChangeAddress returns a new address for receiving change that will be
 // associated with the provided account.  Note that this is only for raw
 // transactions and NOT for normal use.
-func (c *Client) GetRawChangeAddress(account string) (ltcutil.Address, error) {
+func (c *Client) GetRawChangeAddress(account string) (fakutil.Address, error) {
 	return c.GetRawChangeAddressAsync(account).Receive()
 }
 
@@ -949,7 +949,7 @@ type FutureGetAccountAddressResult chan *response
 
 // Receive waits for the response promised by the future and returns the current
 // Bitcoin address for receiving payments to the specified account.
-func (r FutureGetAccountAddressResult) Receive() (ltcutil.Address, error) {
+func (r FutureGetAccountAddressResult) Receive() (fakutil.Address, error) {
 	res, err := receiveFuture(r)
 	if err != nil {
 		return nil, err
@@ -962,7 +962,7 @@ func (r FutureGetAccountAddressResult) Receive() (ltcutil.Address, error) {
 		return nil, err
 	}
 
-	return ltcutil.DecodeAddress(addr, &chaincfg.MainNetParams)
+	return fakutil.DecodeAddress(addr, &chaincfg.MainNetParams)
 }
 
 // GetAccountAddressAsync returns an instance of a type that can be used to get
@@ -977,7 +977,7 @@ func (c *Client) GetAccountAddressAsync(account string) FutureGetAccountAddressR
 
 // GetAccountAddress returns the current Bitcoin address for receiving payments
 // to the specified account.
-func (c *Client) GetAccountAddress(account string) (ltcutil.Address, error) {
+func (c *Client) GetAccountAddress(account string) (fakutil.Address, error) {
 	return c.GetAccountAddressAsync(account).Receive()
 }
 
@@ -1008,14 +1008,14 @@ func (r FutureGetAccountResult) Receive() (string, error) {
 // returned instance.
 //
 // See GetAccount for the blocking version and more details.
-func (c *Client) GetAccountAsync(address ltcutil.Address) FutureGetAccountResult {
+func (c *Client) GetAccountAsync(address fakutil.Address) FutureGetAccountResult {
 	addr := address.EncodeAddress()
 	cmd := btcjson.NewGetAccountCmd(addr)
 	return c.sendCmd(cmd)
 }
 
 // GetAccount returns the account associated with the passed address.
-func (c *Client) GetAccount(address ltcutil.Address) (string, error) {
+func (c *Client) GetAccount(address fakutil.Address) (string, error) {
 	return c.GetAccountAsync(address).Receive()
 }
 
@@ -1035,14 +1035,14 @@ func (r FutureSetAccountResult) Receive() error {
 // returned instance.
 //
 // See SetAccount for the blocking version and more details.
-func (c *Client) SetAccountAsync(address ltcutil.Address, account string) FutureSetAccountResult {
+func (c *Client) SetAccountAsync(address fakutil.Address, account string) FutureSetAccountResult {
 	addr := address.EncodeAddress()
 	cmd := btcjson.NewSetAccountCmd(addr, account)
 	return c.sendCmd(cmd)
 }
 
 // SetAccount sets the account associated with the passed address.
-func (c *Client) SetAccount(address ltcutil.Address, account string) error {
+func (c *Client) SetAccount(address fakutil.Address, account string) error {
 	return c.SetAccountAsync(address, account).Receive()
 }
 
@@ -1052,7 +1052,7 @@ type FutureGetAddressesByAccountResult chan *response
 
 // Receive waits for the response promised by the future and returns the list of
 // addresses associated with the passed account.
-func (r FutureGetAddressesByAccountResult) Receive() ([]ltcutil.Address, error) {
+func (r FutureGetAddressesByAccountResult) Receive() ([]fakutil.Address, error) {
 	res, err := receiveFuture(r)
 	if err != nil {
 		return nil, err
@@ -1065,9 +1065,9 @@ func (r FutureGetAddressesByAccountResult) Receive() ([]ltcutil.Address, error) 
 		return nil, err
 	}
 
-	addrs := make([]ltcutil.Address, 0, len(addrStrings))
+	addrs := make([]fakutil.Address, 0, len(addrStrings))
 	for _, addrStr := range addrStrings {
-		addr, err := ltcutil.DecodeAddress(addrStr,
+		addr, err := fakutil.DecodeAddress(addrStr,
 			&chaincfg.MainNetParams)
 		if err != nil {
 			return nil, err
@@ -1090,7 +1090,7 @@ func (c *Client) GetAddressesByAccountAsync(account string) FutureGetAddressesBy
 
 // GetAddressesByAccount returns the list of addresses associated with the
 // passed account.
-func (c *Client) GetAddressesByAccount(account string) ([]ltcutil.Address, error) {
+func (c *Client) GetAddressesByAccount(account string) ([]fakutil.Address, error) {
 	return c.GetAddressesByAccountAsync(account).Receive()
 }
 
@@ -1122,7 +1122,7 @@ func (r FutureMoveResult) Receive() (bool, error) {
 // instance.
 //
 // See Move for the blocking version and more details.
-func (c *Client) MoveAsync(fromAccount, toAccount string, amount ltcutil.Amount) FutureMoveResult {
+func (c *Client) MoveAsync(fromAccount, toAccount string, amount fakutil.Amount) FutureMoveResult {
 	cmd := btcjson.NewMoveCmd(fromAccount, toAccount, amount.ToBTC(), nil,
 		nil)
 	return c.sendCmd(cmd)
@@ -1132,7 +1132,7 @@ func (c *Client) MoveAsync(fromAccount, toAccount string, amount ltcutil.Amount)
 // funds with the default number of minimum confirmations will be used.
 //
 // See MoveMinConf and MoveComment for different options.
-func (c *Client) Move(fromAccount, toAccount string, amount ltcutil.Amount) (bool, error) {
+func (c *Client) Move(fromAccount, toAccount string, amount fakutil.Amount) (bool, error) {
 	return c.MoveAsync(fromAccount, toAccount, amount).Receive()
 }
 
@@ -1142,7 +1142,7 @@ func (c *Client) Move(fromAccount, toAccount string, amount ltcutil.Amount) (boo
 //
 // See MoveMinConf for the blocking version and more details.
 func (c *Client) MoveMinConfAsync(fromAccount, toAccount string,
-	amount ltcutil.Amount, minConfirms int) FutureMoveResult {
+	amount fakutil.Amount, minConfirms int) FutureMoveResult {
 
 	cmd := btcjson.NewMoveCmd(fromAccount, toAccount, amount.ToBTC(),
 		&minConfirms, nil)
@@ -1155,7 +1155,7 @@ func (c *Client) MoveMinConfAsync(fromAccount, toAccount string,
 //
 // See Move to use the default number of minimum confirmations and MoveComment
 // for additional options.
-func (c *Client) MoveMinConf(fromAccount, toAccount string, amount ltcutil.Amount, minConf int) (bool, error) {
+func (c *Client) MoveMinConf(fromAccount, toAccount string, amount fakutil.Amount, minConf int) (bool, error) {
 	return c.MoveMinConfAsync(fromAccount, toAccount, amount, minConf).Receive()
 }
 
@@ -1165,7 +1165,7 @@ func (c *Client) MoveMinConf(fromAccount, toAccount string, amount ltcutil.Amoun
 //
 // See MoveComment for the blocking version and more details.
 func (c *Client) MoveCommentAsync(fromAccount, toAccount string,
-	amount ltcutil.Amount, minConfirms int, comment string) FutureMoveResult {
+	amount fakutil.Amount, minConfirms int, comment string) FutureMoveResult {
 
 	cmd := btcjson.NewMoveCmd(fromAccount, toAccount, amount.ToBTC(),
 		&minConfirms, &comment)
@@ -1178,7 +1178,7 @@ func (c *Client) MoveCommentAsync(fromAccount, toAccount string,
 // of minimum confirmations will be used.
 //
 // See Move and MoveMinConf to use defaults.
-func (c *Client) MoveComment(fromAccount, toAccount string, amount ltcutil.Amount,
+func (c *Client) MoveComment(fromAccount, toAccount string, amount fakutil.Amount,
 	minConf int, comment string) (bool, error) {
 
 	return c.MoveCommentAsync(fromAccount, toAccount, amount, minConf,
@@ -1238,14 +1238,14 @@ func (r FutureValidateAddressResult) Receive() (*btcjson.ValidateAddressWalletRe
 // the returned instance.
 //
 // See ValidateAddress for the blocking version and more details.
-func (c *Client) ValidateAddressAsync(address ltcutil.Address) FutureValidateAddressResult {
+func (c *Client) ValidateAddressAsync(address fakutil.Address) FutureValidateAddressResult {
 	addr := address.EncodeAddress()
 	cmd := btcjson.NewValidateAddressCmd(addr)
 	return c.sendCmd(cmd)
 }
 
 // ValidateAddress returns information about the given bitcoin address.
-func (c *Client) ValidateAddress(address ltcutil.Address) (*btcjson.ValidateAddressWalletResult, error) {
+func (c *Client) ValidateAddress(address fakutil.Address) (*btcjson.ValidateAddressWalletResult, error) {
 	return c.ValidateAddressAsync(address).Receive()
 }
 
@@ -1304,7 +1304,7 @@ type FutureListAccountsResult chan *response
 
 // Receive waits for the response promised by the future and returns returns a
 // map of account names and their associated balances.
-func (r FutureListAccountsResult) Receive() (map[string]ltcutil.Amount, error) {
+func (r FutureListAccountsResult) Receive() (map[string]fakutil.Amount, error) {
 	res, err := receiveFuture(r)
 	if err != nil {
 		return nil, err
@@ -1317,9 +1317,9 @@ func (r FutureListAccountsResult) Receive() (map[string]ltcutil.Amount, error) {
 		return nil, err
 	}
 
-	accountsMap := make(map[string]ltcutil.Amount)
+	accountsMap := make(map[string]fakutil.Amount)
 	for k, v := range accounts {
-		amount, err := ltcutil.NewAmount(v)
+		amount, err := fakutil.NewAmount(v)
 		if err != nil {
 			return nil, err
 		}
@@ -1344,7 +1344,7 @@ func (c *Client) ListAccountsAsync() FutureListAccountsResult {
 // using the default number of minimum confirmations.
 //
 // See ListAccountsMinConf to override the minimum number of confirmations.
-func (c *Client) ListAccounts() (map[string]ltcutil.Amount, error) {
+func (c *Client) ListAccounts() (map[string]fakutil.Amount, error) {
 	return c.ListAccountsAsync().Receive()
 }
 
@@ -1362,7 +1362,7 @@ func (c *Client) ListAccountsMinConfAsync(minConfirms int) FutureListAccountsRes
 // balances using the specified number of minimum confirmations.
 //
 // See ListAccounts to use the default minimum number of confirmations.
-func (c *Client) ListAccountsMinConf(minConfirms int) (map[string]ltcutil.Amount, error) {
+func (c *Client) ListAccountsMinConf(minConfirms int) (map[string]fakutil.Amount, error) {
 	return c.ListAccountsMinConfAsync(minConfirms).Receive()
 }
 
@@ -1373,7 +1373,7 @@ type FutureGetBalanceResult chan *response
 
 // Receive waits for the response promised by the future and returns the
 // available balance from the server for the specified account.
-func (r FutureGetBalanceResult) Receive() (ltcutil.Amount, error) {
+func (r FutureGetBalanceResult) Receive() (fakutil.Amount, error) {
 	res, err := receiveFuture(r)
 	if err != nil {
 		return 0, err
@@ -1386,7 +1386,7 @@ func (r FutureGetBalanceResult) Receive() (ltcutil.Amount, error) {
 		return 0, err
 	}
 
-	amount, err := ltcutil.NewAmount(balance)
+	amount, err := fakutil.NewAmount(balance)
 	if err != nil {
 		return 0, err
 	}
@@ -1402,7 +1402,7 @@ type FutureGetBalanceParseResult chan *response
 
 // Receive waits for the response promised by the future and returns the
 // available balance from the server for the specified account.
-func (r FutureGetBalanceParseResult) Receive() (ltcutil.Amount, error) {
+func (r FutureGetBalanceParseResult) Receive() (fakutil.Amount, error) {
 	res, err := receiveFuture(r)
 	if err != nil {
 		return 0, err
@@ -1419,7 +1419,7 @@ func (r FutureGetBalanceParseResult) Receive() (ltcutil.Amount, error) {
 	if err != nil {
 		return 0, err
 	}
-	amount, err := ltcutil.NewAmount(balance)
+	amount, err := fakutil.NewAmount(balance)
 	if err != nil {
 		return 0, err
 	}
@@ -1442,7 +1442,7 @@ func (c *Client) GetBalanceAsync(account string) FutureGetBalanceResult {
 // be "*" for all accounts.
 //
 // See GetBalanceMinConf to override the minimum number of confirmations.
-func (c *Client) GetBalance(account string) (ltcutil.Amount, error) {
+func (c *Client) GetBalance(account string) (fakutil.Amount, error) {
 	return c.GetBalanceAsync(account).Receive()
 }
 
@@ -1461,7 +1461,7 @@ func (c *Client) GetBalanceMinConfAsync(account string, minConfirms int) FutureG
 // account may be "*" for all accounts.
 //
 // See GetBalance to use the default minimum number of confirmations.
-func (c *Client) GetBalanceMinConf(account string, minConfirms int) (ltcutil.Amount, error) {
+func (c *Client) GetBalanceMinConf(account string, minConfirms int) (fakutil.Amount, error) {
 	if c.config.EnableBCInfoHacks {
 		response := c.GetBalanceMinConfAsync(account, minConfirms)
 		return FutureGetBalanceParseResult(response).Receive()
@@ -1476,7 +1476,7 @@ type FutureGetReceivedByAccountResult chan *response
 
 // Receive waits for the response promised by the future and returns the total
 // amount received with the specified account.
-func (r FutureGetReceivedByAccountResult) Receive() (ltcutil.Amount, error) {
+func (r FutureGetReceivedByAccountResult) Receive() (fakutil.Amount, error) {
 	res, err := receiveFuture(r)
 	if err != nil {
 		return 0, err
@@ -1489,7 +1489,7 @@ func (r FutureGetReceivedByAccountResult) Receive() (ltcutil.Amount, error) {
 		return 0, err
 	}
 
-	amount, err := ltcutil.NewAmount(balance)
+	amount, err := fakutil.NewAmount(balance)
 	if err != nil {
 		return 0, err
 	}
@@ -1512,7 +1512,7 @@ func (c *Client) GetReceivedByAccountAsync(account string) FutureGetReceivedByAc
 //
 // See GetReceivedByAccountMinConf to override the minimum number of
 // confirmations.
-func (c *Client) GetReceivedByAccount(account string) (ltcutil.Amount, error) {
+func (c *Client) GetReceivedByAccount(account string) (fakutil.Amount, error) {
 	return c.GetReceivedByAccountAsync(account).Receive()
 }
 
@@ -1531,7 +1531,7 @@ func (c *Client) GetReceivedByAccountMinConfAsync(account string, minConfirms in
 // confirmations.
 //
 // See GetReceivedByAccount to use the default minimum number of confirmations.
-func (c *Client) GetReceivedByAccountMinConf(account string, minConfirms int) (ltcutil.Amount, error) {
+func (c *Client) GetReceivedByAccountMinConf(account string, minConfirms int) (fakutil.Amount, error) {
 	return c.GetReceivedByAccountMinConfAsync(account, minConfirms).Receive()
 }
 
@@ -1541,7 +1541,7 @@ type FutureGetUnconfirmedBalanceResult chan *response
 
 // Receive waits for the response promised by the future and returns returns the
 // unconfirmed balance from the server for the specified account.
-func (r FutureGetUnconfirmedBalanceResult) Receive() (ltcutil.Amount, error) {
+func (r FutureGetUnconfirmedBalanceResult) Receive() (fakutil.Amount, error) {
 	res, err := receiveFuture(r)
 	if err != nil {
 		return 0, err
@@ -1554,7 +1554,7 @@ func (r FutureGetUnconfirmedBalanceResult) Receive() (ltcutil.Amount, error) {
 		return 0, err
 	}
 
-	amount, err := ltcutil.NewAmount(balance)
+	amount, err := fakutil.NewAmount(balance)
 	if err != nil {
 		return 0, err
 	}
@@ -1574,7 +1574,7 @@ func (c *Client) GetUnconfirmedBalanceAsync(account string) FutureGetUnconfirmed
 
 // GetUnconfirmedBalance returns the unconfirmed balance from the server for
 // the specified account.
-func (c *Client) GetUnconfirmedBalance(account string) (ltcutil.Amount, error) {
+func (c *Client) GetUnconfirmedBalance(account string) (fakutil.Amount, error) {
 	return c.GetUnconfirmedBalanceAsync(account).Receive()
 }
 
@@ -1585,7 +1585,7 @@ type FutureGetReceivedByAddressResult chan *response
 
 // Receive waits for the response promised by the future and returns the total
 // amount received by the specified address.
-func (r FutureGetReceivedByAddressResult) Receive() (ltcutil.Amount, error) {
+func (r FutureGetReceivedByAddressResult) Receive() (fakutil.Amount, error) {
 	res, err := receiveFuture(r)
 	if err != nil {
 		return 0, err
@@ -1598,7 +1598,7 @@ func (r FutureGetReceivedByAddressResult) Receive() (ltcutil.Amount, error) {
 		return 0, err
 	}
 
-	amount, err := ltcutil.NewAmount(balance)
+	amount, err := fakutil.NewAmount(balance)
 	if err != nil {
 		return 0, err
 	}
@@ -1611,7 +1611,7 @@ func (r FutureGetReceivedByAddressResult) Receive() (ltcutil.Amount, error) {
 // function on the returned instance.
 //
 // See GetReceivedByAddress for the blocking version and more details.
-func (c *Client) GetReceivedByAddressAsync(address ltcutil.Address) FutureGetReceivedByAddressResult {
+func (c *Client) GetReceivedByAddressAsync(address fakutil.Address) FutureGetReceivedByAddressResult {
 	addr := address.EncodeAddress()
 	cmd := btcjson.NewGetReceivedByAddressCmd(addr, nil)
 	return c.sendCmd(cmd)
@@ -1623,7 +1623,7 @@ func (c *Client) GetReceivedByAddressAsync(address ltcutil.Address) FutureGetRec
 //
 // See GetReceivedByAddressMinConf to override the minimum number of
 // confirmations.
-func (c *Client) GetReceivedByAddress(address ltcutil.Address) (ltcutil.Amount, error) {
+func (c *Client) GetReceivedByAddress(address fakutil.Address) (fakutil.Amount, error) {
 	return c.GetReceivedByAddressAsync(address).Receive()
 }
 
@@ -1632,7 +1632,7 @@ func (c *Client) GetReceivedByAddress(address ltcutil.Address) (ltcutil.Amount, 
 // function on the returned instance.
 //
 // See GetReceivedByAddressMinConf for the blocking version and more details.
-func (c *Client) GetReceivedByAddressMinConfAsync(address ltcutil.Address, minConfirms int) FutureGetReceivedByAddressResult {
+func (c *Client) GetReceivedByAddressMinConfAsync(address fakutil.Address, minConfirms int) FutureGetReceivedByAddressResult {
 	addr := address.EncodeAddress()
 	cmd := btcjson.NewGetReceivedByAddressCmd(addr, &minConfirms)
 	return c.sendCmd(cmd)
@@ -1642,7 +1642,7 @@ func (c *Client) GetReceivedByAddressMinConfAsync(address ltcutil.Address, minCo
 // address with at least the specified number of minimum confirmations.
 //
 // See GetReceivedByAddress to use the default minimum number of confirmations.
-func (c *Client) GetReceivedByAddressMinConf(address ltcutil.Address, minConfirms int) (ltcutil.Amount, error) {
+func (c *Client) GetReceivedByAddressMinConf(address fakutil.Address, minConfirms int) (fakutil.Amount, error) {
 	return c.GetReceivedByAddressMinConfAsync(address, minConfirms).Receive()
 }
 
@@ -1921,7 +1921,7 @@ func (r FutureSignMessageResult) Receive() (string, error) {
 // returned instance.
 //
 // See SignMessage for the blocking version and more details.
-func (c *Client) SignMessageAsync(address ltcutil.Address, message string) FutureSignMessageResult {
+func (c *Client) SignMessageAsync(address fakutil.Address, message string) FutureSignMessageResult {
 	addr := address.EncodeAddress()
 	cmd := btcjson.NewSignMessageCmd(addr, message)
 	return c.sendCmd(cmd)
@@ -1931,7 +1931,7 @@ func (c *Client) SignMessageAsync(address ltcutil.Address, message string) Futur
 //
 // NOTE: This function requires to the wallet to be unlocked.  See the
 // WalletPassphrase function for more details.
-func (c *Client) SignMessage(address ltcutil.Address, message string) (string, error) {
+func (c *Client) SignMessage(address fakutil.Address, message string) (string, error) {
 	return c.SignMessageAsync(address, message).Receive()
 }
 
@@ -1962,7 +1962,7 @@ func (r FutureVerifyMessageResult) Receive() (bool, error) {
 // returned instance.
 //
 // See VerifyMessage for the blocking version and more details.
-func (c *Client) VerifyMessageAsync(address ltcutil.Address, signature, message string) FutureVerifyMessageResult {
+func (c *Client) VerifyMessageAsync(address fakutil.Address, signature, message string) FutureVerifyMessageResult {
 	addr := address.EncodeAddress()
 	cmd := btcjson.NewVerifyMessageCmd(addr, signature, message)
 	return c.sendCmd(cmd)
@@ -1972,7 +1972,7 @@ func (c *Client) VerifyMessageAsync(address ltcutil.Address, signature, message 
 //
 // NOTE: This function requires to the wallet to be unlocked.  See the
 // WalletPassphrase function for more details.
-func (c *Client) VerifyMessage(address ltcutil.Address, signature, message string) (bool, error) {
+func (c *Client) VerifyMessage(address fakutil.Address, signature, message string) (bool, error) {
 	return c.VerifyMessageAsync(address, signature, message).Receive()
 }
 
@@ -1987,7 +1987,7 @@ type FutureDumpPrivKeyResult chan *response
 // Receive waits for the response promised by the future and returns the private
 // key corresponding to the passed address encoded in the wallet import format
 // (WIF)
-func (r FutureDumpPrivKeyResult) Receive() (*ltcutil.WIF, error) {
+func (r FutureDumpPrivKeyResult) Receive() (*fakutil.WIF, error) {
 	res, err := receiveFuture(r)
 	if err != nil {
 		return nil, err
@@ -2000,7 +2000,7 @@ func (r FutureDumpPrivKeyResult) Receive() (*ltcutil.WIF, error) {
 		return nil, err
 	}
 
-	return ltcutil.DecodeWIF(privKeyWIF)
+	return fakutil.DecodeWIF(privKeyWIF)
 }
 
 // DumpPrivKeyAsync returns an instance of a type that can be used to get the
@@ -2008,7 +2008,7 @@ func (r FutureDumpPrivKeyResult) Receive() (*ltcutil.WIF, error) {
 // returned instance.
 //
 // See DumpPrivKey for the blocking version and more details.
-func (c *Client) DumpPrivKeyAsync(address ltcutil.Address) FutureDumpPrivKeyResult {
+func (c *Client) DumpPrivKeyAsync(address fakutil.Address) FutureDumpPrivKeyResult {
 	addr := address.EncodeAddress()
 	cmd := btcjson.NewDumpPrivKeyCmd(addr)
 	return c.sendCmd(cmd)
@@ -2019,7 +2019,7 @@ func (c *Client) DumpPrivKeyAsync(address ltcutil.Address) FutureDumpPrivKeyResu
 //
 // NOTE: This function requires to the wallet to be unlocked.  See the
 // WalletPassphrase function for more details.
-func (c *Client) DumpPrivKey(address ltcutil.Address) (*ltcutil.WIF, error) {
+func (c *Client) DumpPrivKey(address fakutil.Address) (*fakutil.WIF, error) {
 	return c.DumpPrivKeyAsync(address).Receive()
 }
 
@@ -2082,7 +2082,7 @@ func (r FutureImportPrivKeyResult) Receive() error {
 // returned instance.
 //
 // See ImportPrivKey for the blocking version and more details.
-func (c *Client) ImportPrivKeyAsync(privKeyWIF *ltcutil.WIF) FutureImportPrivKeyResult {
+func (c *Client) ImportPrivKeyAsync(privKeyWIF *fakutil.WIF) FutureImportPrivKeyResult {
 	wif := ""
 	if privKeyWIF != nil {
 		wif = privKeyWIF.String()
@@ -2094,7 +2094,7 @@ func (c *Client) ImportPrivKeyAsync(privKeyWIF *ltcutil.WIF) FutureImportPrivKey
 
 // ImportPrivKey imports the passed private key which must be the wallet import
 // format (WIF).
-func (c *Client) ImportPrivKey(privKeyWIF *ltcutil.WIF) error {
+func (c *Client) ImportPrivKey(privKeyWIF *fakutil.WIF) error {
 	return c.ImportPrivKeyAsync(privKeyWIF).Receive()
 }
 
@@ -2103,7 +2103,7 @@ func (c *Client) ImportPrivKey(privKeyWIF *ltcutil.WIF) error {
 // returned instance.
 //
 // See ImportPrivKey for the blocking version and more details.
-func (c *Client) ImportPrivKeyLabelAsync(privKeyWIF *ltcutil.WIF, label string) FutureImportPrivKeyResult {
+func (c *Client) ImportPrivKeyLabelAsync(privKeyWIF *fakutil.WIF, label string) FutureImportPrivKeyResult {
 	wif := ""
 	if privKeyWIF != nil {
 		wif = privKeyWIF.String()
@@ -2115,7 +2115,7 @@ func (c *Client) ImportPrivKeyLabelAsync(privKeyWIF *ltcutil.WIF, label string) 
 
 // ImportPrivKeyLabel imports the passed private key which must be the wallet import
 // format (WIF). It sets the account label to the one provided.
-func (c *Client) ImportPrivKeyLabel(privKeyWIF *ltcutil.WIF, label string) error {
+func (c *Client) ImportPrivKeyLabel(privKeyWIF *fakutil.WIF, label string) error {
 	return c.ImportPrivKeyLabelAsync(privKeyWIF, label).Receive()
 }
 
@@ -2124,7 +2124,7 @@ func (c *Client) ImportPrivKeyLabel(privKeyWIF *ltcutil.WIF, label string) error
 // returned instance.
 //
 // See ImportPrivKey for the blocking version and more details.
-func (c *Client) ImportPrivKeyRescanAsync(privKeyWIF *ltcutil.WIF, label string, rescan bool) FutureImportPrivKeyResult {
+func (c *Client) ImportPrivKeyRescanAsync(privKeyWIF *fakutil.WIF, label string, rescan bool) FutureImportPrivKeyResult {
 	wif := ""
 	if privKeyWIF != nil {
 		wif = privKeyWIF.String()
@@ -2137,7 +2137,7 @@ func (c *Client) ImportPrivKeyRescanAsync(privKeyWIF *ltcutil.WIF, label string,
 // ImportPrivKeyRescan imports the passed private key which must be the wallet import
 // format (WIF). It sets the account label to the one provided. When rescan is true,
 // the block history is scanned for transactions addressed to provided privKey.
-func (c *Client) ImportPrivKeyRescan(privKeyWIF *ltcutil.WIF, label string, rescan bool) error {
+func (c *Client) ImportPrivKeyRescan(privKeyWIF *fakutil.WIF, label string, rescan bool) error {
 	return c.ImportPrivKeyRescanAsync(privKeyWIF, label, rescan).Receive()
 }
 

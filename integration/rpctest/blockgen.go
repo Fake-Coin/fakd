@@ -16,7 +16,7 @@ import (
 	"fakco.in/fakd/chaincfg/chainhash"
 	"fakco.in/fakd/txscript"
 	"fakco.in/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 // solveBlock attempts to find a nonce which makes the passed block header hash
@@ -88,8 +88,8 @@ func standardCoinbaseScript(nextBlockHeight int32, extraNonce uint64) ([]byte, e
 // createCoinbaseTx returns a coinbase transaction paying an appropriate
 // subsidy based on the passed block height to the provided address.
 func createCoinbaseTx(coinbaseScript []byte, nextBlockHeight int32,
-	addr ltcutil.Address, mineTo []wire.TxOut,
-	net *chaincfg.Params) (*ltcutil.Tx, error) {
+	addr fakutil.Address, mineTo []wire.TxOut,
+	net *chaincfg.Params) (*fakutil.Tx, error) {
 
 	// Create the script to pay to the provided payment address.
 	pkScript, err := txscript.PayToAddrScript(addr)
@@ -116,7 +116,7 @@ func createCoinbaseTx(coinbaseScript []byte, nextBlockHeight int32,
 			tx.AddTxOut(&mineTo[i])
 		}
 	}
-	return ltcutil.NewTx(tx), nil
+	return fakutil.NewTx(tx), nil
 }
 
 // CreateBlock creates a new block building from the previous block with a
@@ -124,9 +124,9 @@ func createCoinbaseTx(coinbaseScript []byte, nextBlockHeight int32,
 // initialized), then the timestamp of the previous block will be used plus 1
 // second is used. Passing nil for the previous block results in a block that
 // builds off of the genesis block for the specified chain.
-func CreateBlock(prevBlock *ltcutil.Block, inclusionTxs []*ltcutil.Tx,
-	blockVersion int32, blockTime time.Time, miningAddr ltcutil.Address,
-	mineTo []wire.TxOut, net *chaincfg.Params) (*ltcutil.Block, error) {
+func CreateBlock(prevBlock *fakutil.Block, inclusionTxs []*fakutil.Tx,
+	blockVersion int32, blockTime time.Time, miningAddr fakutil.Address,
+	mineTo []wire.TxOut, net *chaincfg.Params) (*fakutil.Block, error) {
 
 	var (
 		prevHash      *chainhash.Hash
@@ -169,7 +169,7 @@ func CreateBlock(prevBlock *ltcutil.Block, inclusionTxs []*ltcutil.Tx,
 	}
 
 	// Create a new block ready to be solved.
-	blockTxns := []*ltcutil.Tx{coinbaseTx}
+	blockTxns := []*fakutil.Tx{coinbaseTx}
 	if inclusionTxs != nil {
 		blockTxns = append(blockTxns, inclusionTxs...)
 	}
@@ -193,7 +193,7 @@ func CreateBlock(prevBlock *ltcutil.Block, inclusionTxs []*ltcutil.Tx,
 		return nil, errors.New("Unable to solve block")
 	}
 
-	utilBlock := ltcutil.NewBlock(&block)
+	utilBlock := fakutil.NewBlock(&block)
 	utilBlock.SetHeight(blockHeight)
 	return utilBlock, nil
 }

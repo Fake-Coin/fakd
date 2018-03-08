@@ -15,7 +15,7 @@ import (
 
 	flags "github.com/jessevdk/go-flags"
 	"fakco.in/fakd/btcjson"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 const (
@@ -26,9 +26,9 @@ const (
 )
 
 var (
-	ltcdHomeDir           = ltcutil.AppDataDir("ltcd", false)
-	ltcctlHomeDir         = ltcutil.AppDataDir("ltcctl", false)
-	ltcwalletHomeDir      = ltcutil.AppDataDir("ltcwallet", false)
+	ltcdHomeDir           = fakutil.AppDataDir("ltcd", false)
+	ltcctlHomeDir         = fakutil.AppDataDir("ltcctl", false)
+	ltcwalletHomeDir      = fakutil.AppDataDir("ltcwallet", false)
 	defaultConfigFile     = filepath.Join(ltcctlHomeDir, "ltcctl.conf")
 	defaultRPCServer      = "localhost"
 	defaultRPCCertFile    = filepath.Join(ltcdHomeDir, "rpc.cert")

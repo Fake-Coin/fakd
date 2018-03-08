@@ -6,7 +6,7 @@ package blockchain
 
 import (
 	"fakco.in/fakd/database"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 // maybeAcceptBlock potentially accepts a block into the block chain and, if
@@ -23,7 +23,7 @@ import (
 // their documentation for how the flags modify their behavior.
 //
 // This function MUST be called with the chain state lock held (for writes).
-func (b *BlockChain) maybeAcceptBlock(block *ltcutil.Block, flags BehaviorFlags) (bool, error) {
+func (b *BlockChain) maybeAcceptBlock(block *fakutil.Block, flags BehaviorFlags) (bool, error) {
 	dryRun := flags&BFDryRun == BFDryRun
 
 	// The height of this block is one more than the referenced previous

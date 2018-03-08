@@ -10,8 +10,6 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/btcsuite/btclog"
-	"github.com/jrick/logrotate/rotator"
 	"fakco.in/fakd/addrmgr"
 	"fakco.in/fakd/blockchain"
 	"fakco.in/fakd/blockchain/indexers"
@@ -19,10 +17,12 @@ import (
 	"fakco.in/fakd/database"
 	"fakco.in/fakd/mempool"
 	"fakco.in/fakd/mining"
-	"fakco.in/fakd/netsync"
 	"fakco.in/fakd/mining/cpuminer"
+	"fakco.in/fakd/netsync"
 	"fakco.in/fakd/peer"
 	"fakco.in/fakd/txscript"
+	"github.com/btcsuite/btclog"
+	"github.com/jrick/logrotate/rotator"
 )
 
 // logWriter implements an io.Writer that outputs to both standard output and
@@ -91,7 +91,7 @@ var subsystemLoggers = map[string]btclog.Logger{
 	"AMGR": amgrLog,
 	"CMGR": cmgrLog,
 	"BCDB": bcdbLog,
-	"BMGR": bmgrLog,
+	"BMGR": ltcdLog,
 	"LTCD": ltcdLog,
 	"CHAN": chanLog,
 	"DISC": discLog,

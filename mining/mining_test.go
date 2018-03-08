@@ -9,7 +9,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 // TestTxFeePrioHeap ensures the priority queue for transaction fees and
@@ -43,7 +43,7 @@ func TestTxFeePrioHeap(t *testing.T) {
 	prng := rand.New(rand.NewSource(randSeed))
 	for i := 0; i < 1000; i++ {
 		testItems = append(testItems, &txPrioItem{
-			feePerKB: int64(prng.Float64() * ltcutil.SatoshiPerBitcoin),
+			feePerKB: int64(prng.Float64() * fakutil.SatoshiPerBitcoin),
 			priority: prng.Float64() * 100,
 		})
 	}

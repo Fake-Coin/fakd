@@ -11,9 +11,9 @@ import (
 	"fakco.in/fakd/chaincfg"
 	"fakco.in/fakd/chaincfg/chainhash"
 	"fakco.in/fakd/database"
-	"github.com/ltcsuite/ltcutil"
-	"github.com/ltcsuite/ltcutil/gcs"
-	"github.com/ltcsuite/ltcutil/gcs/builder"
+	"fakco.in/fakutil"
+	"fakco.in/fakutil/gcs"
+	"fakco.in/fakutil/gcs/builder"
 	"github.com/btcsuite/fastsha256"
 )
 
@@ -169,7 +169,7 @@ func (idx *CfIndex) Create(dbTx database.Tx) error {
 
 // storeFilter stores a given filter, and performs the steps needed to
 // generate the filter's header.
-func storeFilter(dbTx database.Tx, block *ltcutil.Block, f *gcs.Filter,
+func storeFilter(dbTx database.Tx, block *fakutil.Block, f *gcs.Filter,
 	extended bool) error {
 
 	// Figure out which buckets to use.
@@ -210,7 +210,7 @@ func storeFilter(dbTx database.Tx, block *ltcutil.Block, f *gcs.Filter,
 // ConnectBlock is invoked by the index manager when a new block has been
 // connected to the main chain. This indexer adds a hash-to-cf mapping for
 // every passed block. This is part of the Indexer interface.
-func (idx *CfIndex) ConnectBlock(dbTx database.Tx, block *ltcutil.Block,
+func (idx *CfIndex) ConnectBlock(dbTx database.Tx, block *fakutil.Block,
 	view *blockchain.UtxoViewpoint) error {
 
 	f, err := builder.BuildBasicFilter(block.MsgBlock())
@@ -233,7 +233,7 @@ func (idx *CfIndex) ConnectBlock(dbTx database.Tx, block *ltcutil.Block,
 // DisconnectBlock is invoked by the index manager when a block has been
 // disconnected from the main chain.  This indexer removes the hash-to-cf
 // mapping for every passed block. This is part of the Indexer interface.
-func (idx *CfIndex) DisconnectBlock(dbTx database.Tx, block *ltcutil.Block,
+func (idx *CfIndex) DisconnectBlock(dbTx database.Tx, block *fakutil.Block,
 	view *blockchain.UtxoViewpoint) error {
 
 	err := dbDeleteFilter(dbTx, cfBasicIndexKey, block.Hash())

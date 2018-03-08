@@ -14,11 +14,11 @@ import (
 	"fakco.in/fakd/database"
 	_ "fakco.in/fakd/database/ffldb"
 	"fakco.in/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 var (
-	ltcdHomeDir     = ltcutil.AppDataDir("ltcd", false)
+	ltcdHomeDir     = fakutil.AppDataDir("ltcd", false)
 	knownDbTypes    = database.SupportedDrivers()
 	activeNetParams = &chaincfg.MainNetParams
 

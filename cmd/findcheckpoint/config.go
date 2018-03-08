@@ -13,7 +13,7 @@ import (
 	"fakco.in/fakd/database"
 	_ "fakco.in/fakd/database/ffldb"
 	"fakco.in/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 	flags "github.com/jessevdk/go-flags"
 )
 
@@ -25,7 +25,7 @@ const (
 )
 
 var (
-	ltcdHomeDir     = ltcutil.AppDataDir("ltcd", false)
+	ltcdHomeDir     = fakutil.AppDataDir("ltcd", false)
 	defaultDataDir  = filepath.Join(ltcdHomeDir, "data")
 	knownDbTypes    = database.SupportedDrivers()
 	activeNetParams = &chaincfg.MainNetParams

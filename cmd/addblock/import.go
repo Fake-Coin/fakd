@@ -16,7 +16,7 @@ import (
 	"fakco.in/fakd/chaincfg/chainhash"
 	"fakco.in/fakd/database"
 	"fakco.in/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 var zeroHash = chainhash.Hash{}
@@ -94,7 +94,7 @@ func (bi *blockImporter) readBlock() ([]byte, error) {
 // with any potential errors.
 func (bi *blockImporter) processBlock(serializedBlock []byte) (bool, error) {
 	// Deserialize the block which includes checks for malformed blocks.
-	block, err := ltcutil.NewBlockFromBytes(serializedBlock)
+	block, err := fakutil.NewBlockFromBytes(serializedBlock)
 	if err != nil {
 		return false, err
 	}

@@ -11,7 +11,7 @@ import (
 	"fakco.in/fakd/blockchain"
 	"fakco.in/fakd/chaincfg/chainhash"
 	"fakco.in/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 // newHashFromStr converts the passed big-endian hex string into a
@@ -49,7 +49,7 @@ func newUtxoViewpoint(sourceTxns []*wire.MsgTx, sourceTxHeights []int32) *blockc
 
 	view := blockchain.NewUtxoViewpoint()
 	for i, tx := range sourceTxns {
-		view.AddTxOuts(ltcutil.NewTx(tx), sourceTxHeights[i])
+		view.AddTxOuts(fakutil.NewTx(tx), sourceTxHeights[i])
 	}
 	return view
 }

@@ -30,7 +30,7 @@ import (
 	"fakco.in/fakd/database"
 	"fakco.in/fakd/txscript"
 	"fakco.in/fakd/wire"
-	"github.com/ltcsuite/ltcutil"
+	"fakco.in/fakutil"
 )
 
 const (
@@ -203,7 +203,7 @@ func (m *wsNotificationManager) queueHandler() {
 // NotifyBlockConnected passes a block newly-connected to the best chain
 // to the notification manager for block and transaction notification
 // processing.
-func (m *wsNotificationManager) NotifyBlockConnected(block *ltcutil.Block) {
+func (m *wsNotificationManager) NotifyBlockConnected(block *fakutil.Block) {
 	// As NotifyBlockConnected will be called by the block manager
 	// and the RPC server may no longer be running, use a select
 	// statement to unblock enqueuing the notification once the RPC
@@ -216,7 +216,7 @@ func (m *wsNotificationManager) NotifyBlockConnected(block *ltcutil.Block) {
 
 // NotifyBlockDisconnected passes a block disconnected from the best chain
 // to the notification manager for block notification processing.
-func (m *wsNotificationManager) NotifyBlockDisconnected(block *ltcutil.Block) {
+func (m *wsNotificationManager) NotifyBlockDisconnected(block *fakutil.Block) {
 	// As NotifyBlockDisconnected will be called by the block manager
 	// and the RPC server may no longer be running, use a select
 	// statement to unblock enqueuing the notification once the RPC
@@ -231,7 +231,7 @@ func (m *wsNotificationManager) NotifyBlockDisconnected(block *ltcutil.Block) {
 // notification manager for transaction notification processing.  If
 // isNew is true, the tx is is a new transaction, rather than one
 // added to the mempool during a reorg.
-func (m *wsNotificationManager) NotifyMempoolTx(tx *ltcutil.Tx, isNew bool) {
+func (m *wsNotificationManager) NotifyMempoolTx(tx *fakutil.Tx, isNew bool) {
 	n := &notificationTxAcceptedByMempool{
 		isNew: isNew,
 		tx:    tx,
@@ -297,15 +297,15 @@ func newWSClientFilter(addresses []string, unspentOutPoints []wire.OutPoint, par
 // on the type of address passed as an argument.
 //
 // NOTE: This extension was ported from github.com/decred/dcrd
-func (f *wsClientFilter) addAddress(a ltcutil.Address) {
+func (f *wsClientFilter) addAddress(a fakutil.Address) {
 	switch a := a.(type) {
-	case *ltcutil.AddressPubKeyHash:
+	case *fakutil.AddressPubKeyHash:
 		f.pubKeyHashes[*a.Hash160()] = struct{}{}
 		return
-	case *ltcutil.AddressScriptHash:
+	case *fakutil.AddressScriptHash:
 		f.scriptHashes[*a.Hash160()] = struct{}{}
 		return
-	case *ltcutil.AddressPubKey:
+	case *fakutil.AddressPubKey:
 		serializedPubKey := a.ScriptAddress()
 		switch len(serializedPubKey) {
 		case 33: // compressed
@@ -332,7 +332,7 @@ func (f *wsClientFilter) addAddressStr(s string, params *chaincfg.Params) {
 	// If address can't be decoded, no point in saving it since it should also
 	// impossible to create the address from an inspected transaction output
 	// script.
-	a, err := ltcutil.DecodeAddress(s, params)
+	a, err := fakutil.DecodeAddress(s, params)
 	if err != nil {
 		return
 	}
@@ -343,15 +343,15 @@ func (f *wsClientFilter) addAddressStr(s string, params *chaincfg.Params) {
 // wsClientFilter.
 //
 // NOTE: This extension was ported from github.com/decred/dcrd
-func (f *wsClientFilter) existsAddress(a ltcutil.Address) bool {
+func (f *wsClientFilter) existsAddress(a fakutil.Address) bool {
 	switch a := a.(type) {
-	case *ltcutil.AddressPubKeyHash:
+	case *fakutil.AddressPubKeyHash:
 		_, ok := f.pubKeyHashes[*a.Hash160()]
 		return ok
-	case *ltcutil.AddressScriptHash:
+	case *fakutil.AddressScriptHash:
 		_, ok := f.scriptHashes[*a.Hash160()]
 		return ok
-	case *ltcutil.AddressPubKey:
+	case *fakutil.AddressPubKey:
 		serializedPubKey := a.ScriptAddress()
 		switch len(serializedPubKey) {
 		case 33: // compressed
@@ -381,15 +381,15 @@ func (f *wsClientFilter) existsAddress(a ltcutil.Address) bool {
 // wsClientFilter.
 //
 // NOTE: This extension was ported from github.com/decred/dcrd
-func (f *wsClientFilter) removeAddress(a ltcutil.Address) {
+func (f *wsClientFilter) removeAddress(a fakutil.Address) {
 	switch a := a.(type) {
-	case *ltcutil.AddressPubKeyHash:
+	case *fakutil.AddressPubKeyHash:
 		delete(f.pubKeyHashes, *a.Hash160())
 		return
-	case *ltcutil.AddressScriptHash:
+	case *fakutil.AddressScriptHash:
 		delete(f.scriptHashes, *a.Hash160())
 		return
-	case *ltcutil.AddressPubKey:
+	case *fakutil.AddressPubKey:
 		serializedPubKey := a.ScriptAddress()
 		switch len(serializedPubKey) {
 		case 33: // compressed
@@ -413,7 +413,7 @@ func (f *wsClientFilter) removeAddress(a ltcutil.Address) {
 //
 // NOTE: This extension was ported from github.com/decred/dcrd
 func (f *wsClientFilter) removeAddressStr(s string, params *chaincfg.Params) {
-	a, err := ltcutil.DecodeAddress(s, params)
+	a, err := fakutil.DecodeAddress(s, params)
 	if err == nil {
 		f.removeAddress(a)
 	} else {
@@ -446,11 +446,11 @@ func (f *wsClientFilter) removeUnspentOutPoint(op *wire.OutPoint) {
 }
 
 // Notification types
-type notificationBlockConnected ltcutil.Block
-type notificationBlockDisconnected ltcutil.Block
+type notificationBlockConnected fakutil.Block
+type notificationBlockDisconnected fakutil.Block
 type notificationTxAcceptedByMempool struct {
 	isNew bool
-	tx    *ltcutil.Tx
+	tx    *fakutil.Tx
 }
 
 // Notification control requests
@@ -505,7 +505,7 @@ out:
 			}
 			switch n := n.(type) {
 			case *notificationBlockConnected:
-				block := (*ltcutil.Block)(n)
+				block := (*fakutil.Block)(n)
 
 				// Skip iterating through all txs if no
 				// tx notification requests exist.
@@ -524,7 +524,7 @@ out:
 				}
 
 			case *notificationBlockDisconnected:
-				block := (*ltcutil.Block)(n)
+				block := (*fakutil.Block)(n)
 
 				if len(blockNotifications) != 0 {
 					m.notifyBlockDisconnected(blockNotifications,
@@ -631,7 +631,7 @@ func (m *wsNotificationManager) UnregisterBlockUpdates(wsc *wsClient) {
 // spending a watched output or outputting to a watched address.  Matching
 // client's filters are updated based on this transaction's outputs and output
 // addresses that may be relevant for a client.
-func (m *wsNotificationManager) subscribedClients(tx *ltcutil.Tx,
+func (m *wsNotificationManager) subscribedClients(tx *fakutil.Tx,
 	clients map[chan struct{}]*wsClient) map[chan struct{}]struct{} {
 
 	// Use a map of client quit channels as keys to prevent duplicates when
@@ -691,7 +691,7 @@ func (m *wsNotificationManager) subscribedClients(tx *ltcutil.Tx,
 // notifyBlockConnected notifies websocket clients that have registered for
 // block updates when a block is connected to the main chain.
 func (*wsNotificationManager) notifyBlockConnected(clients map[chan struct{}]*wsClient,
-	block *ltcutil.Block) {
+	block *fakutil.Block) {
 
 	// Notify interested websocket clients about the connected block.
 	ntfn := btcjson.NewBlockConnectedNtfn(block.Hash().String(), block.Height(),
@@ -710,7 +710,7 @@ func (*wsNotificationManager) notifyBlockConnected(clients map[chan struct{}]*ws
 // notifyBlockDisconnected notifies websocket clients that have registered for
 // block updates when a block is disconnected from the main chain (due to a
 // reorganize).
-func (*wsNotificationManager) notifyBlockDisconnected(clients map[chan struct{}]*wsClient, block *ltcutil.Block) {
+func (*wsNotificationManager) notifyBlockDisconnected(clients map[chan struct{}]*wsClient, block *fakutil.Block) {
 	// Skip notification creation if no clients have requested block
 	// connected/disconnected notifications.
 	if len(clients) == 0 {
@@ -734,7 +734,7 @@ func (*wsNotificationManager) notifyBlockDisconnected(clients map[chan struct{}]
 // notifyFilteredBlockConnected notifies websocket clients that have registered for
 // block updates when a block is connected to the main chain.
 func (m *wsNotificationManager) notifyFilteredBlockConnected(clients map[chan struct{}]*wsClient,
-	block *ltcutil.Block) {
+	block *fakutil.Block) {
 
 	// Create the common portion of the notification that is the same for
 	// every client.
@@ -780,7 +780,7 @@ func (m *wsNotificationManager) notifyFilteredBlockConnected(clients map[chan st
 // block updates when a block is disconnected from the main chain (due to a
 // reorganize).
 func (*wsNotificationManager) notifyFilteredBlockDisconnected(clients map[chan struct{}]*wsClient,
-	block *ltcutil.Block) {
+	block *fakutil.Block) {
 	// Skip notification creation if no clients have requested block
 	// connected/disconnected notifications.
 	if len(clients) == 0 {
@@ -822,7 +822,7 @@ func (m *wsNotificationManager) UnregisterNewMempoolTxsUpdates(wsc *wsClient) {
 
 // notifyForNewTx notifies websocket clients that have registered for updates
 // when a new transaction is added to the memory pool.
-func (m *wsNotificationManager) notifyForNewTx(clients map[chan struct{}]*wsClient, tx *ltcutil.Tx) {
+func (m *wsNotificationManager) notifyForNewTx(clients map[chan struct{}]*wsClient, tx *fakutil.Tx) {
 	txHashStr := tx.Hash().String()
 	mtx := tx.MsgTx()
 
@@ -831,7 +831,7 @@ func (m *wsNotificationManager) notifyForNewTx(clients map[chan struct{}]*wsClie
 		amount += txOut.Value
 	}
 
-	ntfn := btcjson.NewTxAcceptedNtfn(txHashStr, ltcutil.Amount(amount).ToBTC())
+	ntfn := btcjson.NewTxAcceptedNtfn(txHashStr, fakutil.Amount(amount).ToBTC())
 	marshalledJSON, err := btcjson.MarshalCmd(nil, ntfn)
 	if err != nil {
 		rpcsLog.Errorf("Failed to marshal tx notification: %s", err.Error())
@@ -948,7 +948,7 @@ func txHexString(tx *wire.MsgTx) string {
 
 // blockDetails creates a BlockDetails struct to include in btcws notifications
 // from a block and a transaction's block index.
-func blockDetails(block *ltcutil.Block, txIndex int) *btcjson.BlockDetails {
+func blockDetails(block *fakutil.Block, txIndex int) *btcjson.BlockDetails {
 	if block == nil {
 		return nil
 	}
@@ -962,7 +962,7 @@ func blockDetails(block *ltcutil.Block, txIndex int) *btcjson.BlockDetails {
 
 // newRedeemingTxNotification returns a new marshalled redeemingtx notification
 // with the passed parameters.
-func newRedeemingTxNotification(txHex string, index int, block *ltcutil.Block) ([]byte, error) {
+func newRedeemingTxNotification(txHex string, index int, block *fakutil.Block) ([]byte, error) {
 	// Create and marshal the notification.
 	ntfn := btcjson.NewRedeemingTxNtfn(txHex, blockDetails(block, index))
 	return btcjson.MarshalCmd(nil, ntfn)
@@ -973,7 +973,7 @@ func newRedeemingTxNotification(txHex string, index int, block *ltcutil.Block) (
 // address.  A spent notification request is automatically registered for
 // the client for each matching output.
 func (m *wsNotificationManager) notifyForTxOuts(ops map[wire.OutPoint]map[chan struct{}]*wsClient,
-	addrs map[string]map[chan struct{}]*wsClient, tx *ltcutil.Tx, block *ltcutil.Block) {
+	addrs map[string]map[chan struct{}]*wsClient, tx *fakutil.Tx, block *fakutil.Block) {
 
 	// Nothing to do if nobody is listening for address notifications.
 	if len(addrs) == 0 {
@@ -1025,7 +1025,7 @@ func (m *wsNotificationManager) notifyForTxOuts(ops map[wire.OutPoint]map[chan s
 // address and inputs spending a watched outpoint.  Any outputs paying to a
 // watched address result in the output being watched as well for future
 // notifications.
-func (m *wsNotificationManager) notifyRelevantTxAccepted(tx *ltcutil.Tx,
+func (m *wsNotificationManager) notifyRelevantTxAccepted(tx *fakutil.Tx,
 	clients map[chan struct{}]*wsClient) {
 
 	clientsToNotify := m.subscribedClients(tx, clients)
@@ -1047,7 +1047,7 @@ func (m *wsNotificationManager) notifyRelevantTxAccepted(tx *ltcutil.Tx,
 // notifying websocket clients of outputs spending to a watched address
 // and inputs spending a watched outpoint.
 func (m *wsNotificationManager) notifyForTx(ops map[wire.OutPoint]map[chan struct{}]*wsClient,
-	addrs map[string]map[chan struct{}]*wsClient, tx *ltcutil.Tx, block *ltcutil.Block) {
+	addrs map[string]map[chan struct{}]*wsClient, tx *fakutil.Tx, block *fakutil.Block) {
 
 	if len(ops) != 0 {
 		m.notifyForTxIns(ops, tx, block)
@@ -1062,7 +1062,7 @@ func (m *wsNotificationManager) notifyForTx(ops map[wire.OutPoint]map[chan struc
 // spend a watched output.  If block is non-nil, any matching spent
 // requests are removed.
 func (m *wsNotificationManager) notifyForTxIns(ops map[wire.OutPoint]map[chan struct{}]*wsClient,
-	tx *ltcutil.Tx, block *ltcutil.Block) {
+	tx *fakutil.Tx, block *fakutil.Block) {
 
 	// Nothing to do if nobody is watching outpoints.
 	if len(ops) == 0 {
@@ -1934,7 +1934,7 @@ func handleStopNotifyReceived(wsc *wsClient, icmd interface{}) (interface{}, err
 // properly, the function returns an error. Otherwise, nil is returned.
 func checkAddressValidity(addrs []string, params *chaincfg.Params) error {
 	for _, addr := range addrs {
-		_, err := ltcutil.DecodeAddress(addr, params)
+		_, err := fakutil.DecodeAddress(addr, params)
 		if err != nil {
 			return &btcjson.RPCError{
 				Code: btcjson.ErrRPCInvalidAddressOrKey,
@@ -1991,7 +1991,7 @@ var ErrRescanReorg = btcjson.RPCError{
 
 // rescanBlock rescans all transactions in a single block.  This is a helper
 // function for handleRescan.
-func rescanBlock(wsc *wsClient, lookups *rescanKeys, blk *ltcutil.Block) {
+func rescanBlock(wsc *wsClient, lookups *rescanKeys, blk *fakutil.Block) {
 	for _, tx := range blk.Transactions() {
 		// Hexadecimal representation of this tx.  Only created if
 		// needed, and reused for later notifications if already made.
@@ -2037,17 +2037,17 @@ func rescanBlock(wsc *wsClient, lookups *rescanKeys, blk *ltcutil.Block) {
 
 			for _, addr := range addrs {
 				switch a := addr.(type) {
-				case *ltcutil.AddressPubKeyHash:
+				case *fakutil.AddressPubKeyHash:
 					if _, ok := lookups.pubKeyHashes[*a.Hash160()]; !ok {
 						continue
 					}
 
-				case *ltcutil.AddressScriptHash:
+				case *fakutil.AddressScriptHash:
 					if _, ok := lookups.scriptHashes[*a.Hash160()]; !ok {
 						continue
 					}
 
-				case *ltcutil.AddressPubKey:
+				case *fakutil.AddressPubKey:
 					found := false
 					switch sa := a.ScriptAddress(); len(sa) {
 					case 33: // Compressed
@@ -2128,7 +2128,7 @@ func rescanBlock(wsc *wsClient, lookups *rescanKeys, blk *ltcutil.Block) {
 // a string slice.
 //
 // NOTE: This extension is ported from github.com/decred/dcrd
-func rescanBlockFilter(filter *wsClientFilter, block *ltcutil.Block, params *chaincfg.Params) []string {
+func rescanBlockFilter(filter *wsClientFilter, block *fakutil.Block, params *chaincfg.Params) []string {
 	var transactions []string
 
 	filter.mu.Lock()
@@ -2291,7 +2291,7 @@ func recoverFromReorg(chain *blockchain.BlockChain, minBlock, maxBlock int32,
 
 // descendantBlock returns the appropriate JSON-RPC error if a current block
 // fetched during a reorganize is not a direct child of the parent block hash.
-func descendantBlock(prevHash *chainhash.Hash, curBlock *ltcutil.Block) error {
+func descendantBlock(prevHash *chainhash.Hash, curBlock *fakutil.Block) error {
 	curHash := &curBlock.MsgBlock().Header.PrevBlock
 	if !prevHash.IsEqual(curHash) {
 		rpcsLog.Errorf("Stopping rescan for reorged block %v "+
@@ -2348,7 +2348,7 @@ func handleRescan(wsc *wsClient, icmd interface{}) (interface{}, error) {
 	var uncompressedPubkey [65]byte
 	params := wsc.server.cfg.ChainParams
 	for _, addrStr := range cmd.Addresses {
-		addr, err := ltcutil.DecodeAddress(addrStr, params)
+		addr, err := fakutil.DecodeAddress(addrStr, params)
 		if err != nil {
 			jsonErr := btcjson.RPCError{
 				Code: btcjson.ErrRPCInvalidAddressOrKey,
@@ -2358,13 +2358,13 @@ func handleRescan(wsc *wsClient, icmd interface{}) (interface{}, error) {
 			return nil, &jsonErr
 		}
 		switch a := addr.(type) {
-		case *ltcutil.AddressPubKeyHash:
+		case *fakutil.AddressPubKeyHash:
 			lookups.pubKeyHashes[*a.Hash160()] = struct{}{}
 
-		case *ltcutil.AddressScriptHash:
+		case *fakutil.AddressScriptHash:
 			lookups.scriptHashes[*a.Hash160()] = struct{}{}
 
-		case *ltcutil.AddressPubKey:
+		case *fakutil.AddressPubKey:
 			pubkeyBytes := a.ScriptAddress()
 			switch len(pubkeyBytes) {
 			case 33: // Compressed
@@ -2425,7 +2425,7 @@ func handleRescan(wsc *wsClient, icmd interface{}) (interface{}, error) {
 
 	// lastBlock and lastBlockHash track the previously-rescanned block.
 	// They equal nil when no previous blocks have been rescanned.
-	var lastBlock *ltcutil.Block
+	var lastBlock *fakutil.Block
 	var lastBlockHash *chainhash.Hash
 
 	// A ticker is created to wait at least 10 seconds before notifying the
