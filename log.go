@@ -19,6 +19,7 @@ import (
 	"fakco.in/fakd/database"
 	"fakco.in/fakd/mempool"
 	"fakco.in/fakd/mining"
+	"fakco.in/fakd/netsync"
 	"fakco.in/fakd/mining/cpuminer"
 	"fakco.in/fakd/peer"
 	"fakco.in/fakd/txscript"
@@ -56,7 +57,6 @@ var (
 	amgrLog = backendLog.Logger("AMGR")
 	cmgrLog = backendLog.Logger("CMGR")
 	bcdbLog = backendLog.Logger("BCDB")
-	bmgrLog = backendLog.Logger("BMGR")
 	ltcdLog = backendLog.Logger("BTCD")
 	chanLog = backendLog.Logger("CHAN")
 	discLog = backendLog.Logger("DISC")
@@ -66,6 +66,7 @@ var (
 	rpcsLog = backendLog.Logger("RPCS")
 	scrpLog = backendLog.Logger("SCRP")
 	srvrLog = backendLog.Logger("SRVR")
+	syncLog = backendLog.Logger("SYNC")
 	txmpLog = backendLog.Logger("TXMP")
 )
 
@@ -80,6 +81,7 @@ func init() {
 	cpuminer.UseLogger(minrLog)
 	peer.UseLogger(peerLog)
 	txscript.UseLogger(scrpLog)
+	netsync.UseLogger(syncLog)
 	mempool.UseLogger(txmpLog)
 }
 
@@ -99,6 +101,7 @@ var subsystemLoggers = map[string]btclog.Logger{
 	"RPCS": rpcsLog,
 	"SCRP": scrpLog,
 	"SRVR": srvrLog,
+	"SYNC": syncLog,
 	"TXMP": txmpLog,
 }
 

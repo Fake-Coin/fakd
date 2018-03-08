@@ -2,6 +2,8 @@ ltcd
 ====
 
 [![Build Status](https://travis-ci.org/ltcsuite/ltcd.png?branch=master)](https://travis-ci.org/ltcsuite/ltcd)
+[![ISC License](http://img.shields.io/badge/license-ISC-blue.svg)](http://copyfree.org)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg)](http://godoc.org/fakco.in/fakd)
 
 ltcd is an alternative full node bitcoin implementation written in Go (golang).
 
@@ -33,7 +35,7 @@ which are both under active development.
 
 ## Requirements
 
-[Go](http://golang.org) 1.6 or newer.
+[Go](http://golang.org) 1.8 or newer.
 
 ## Installation
 
@@ -110,13 +112,6 @@ $ ./ltcd
 - channel #ltcd
 - [webchat](https://webchat.freenode.net/?channels=ltcd)
 
-## Mailing lists
-
-- ltcd: discussion of ltcd and its packages.
-- ltcd-commits: readonly mail-out of source code changes.
-
-To subscribe to a given list, send email to list+subscribe@opensource.conformal.com
-
 ## Issue Tracker
 
 The [integrated github issue tracker](https://github.com/ltcsuite/ltcd/issues)
@@ -132,8 +127,8 @@ All official release tags are signed by Conformal so users can ensure the code
 has not been tampered with and is coming from the btcsuite developers.  To
 verify the signature perform the following:
 
-- Download the public key from the Conformal website at
-  https://opensource.conformal.com/GIT-GPG-KEY-conformal.txt
+- Download the Conformal public key:
+  https://raw.githubusercontent.com/btcsuite/btcd/master/release/GIT-GPG-KEY-conformal.txt
 
 - Import the public key into your GPG keyring:
   ```bash
