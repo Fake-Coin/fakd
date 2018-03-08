@@ -105,17 +105,9 @@ type BlockChain struct {
 	// parameters.  They are also set when the instance is created and
 	// can't be changed afterwards, so there is no need to protect them with
 	// a separate mutex.
-	//
-	// minMemoryNodes is the minimum number of consecutive nodes needed
-	// in memory in order to perform all necessary validation.  It is used
-	// to determine when it's safe to prune nodes from memory without
-	// causing constant dynamic reloading.  This is typically the same value
-	// as blocksPerRetarget, but it is separated here for tweakability and
-	// testability.
 	minRetargetTimespan int64 // target timespan / adjustment factor
 	maxRetargetTimespan int64 // target timespan * adjustment factor
 	blocksPerRetarget   int32 // target timespan / target time per block
-	minMemoryNodes      int32
 
 	// chainLock protects concurrent access to the vast majority of the
 	// fields in this struct below this point.
@@ -648,7 +640,6 @@ func (b *BlockChain) connectBlock(node *blockNode, block *fakutil.Block, view *U
 	view.commit()
 
 	// This node is now the end of the best chain.
-	b.index.AddNode(node)
 	b.bestChain.SetTip(node)
 
 	// Update the state for the best block.  Notice how this replaces the
@@ -985,9 +976,8 @@ func (b *BlockChain) reorganizeChain(detachNodes, attachNodes *list.List, flags 
 // The flags modify the behavior of this function as follows:
 //  - BFFastAdd: Avoids several expensive transaction validation operations.
 //    This is useful when using checkpoints.
-//  - BFDryRun: Prevents the block from being connected and avoids modifying the
-//    state of the memory chain index.  Also, any log messages related to
-//    modifying the state are avoided.
+//  - BFDryRun: Prevents the block from actually being connected and avoids any
+//    log messages related to modifying the state.
 //
 // This function MUST be called with the chain state lock held (for writes).
 func (b *BlockChain) connectBestChain(node *blockNode, block *fakutil.Block, flags BehaviorFlags) (bool, error) {
@@ -1042,23 +1032,6 @@ func (b *BlockChain) connectBestChain(node *blockNode, block *fakutil.Block, fla
 	if fastAdd {
 		log.Warnf("fastAdd set in the side chain case? %v\n",
 			block.Hash())
-	}
-
-	// We're extending (or creating) a side chain which may or may not
-	// become the main chain, but in either case the entry is needed in the
-	// index for future processing.
-	b.index.Lock()
-	b.index.index[node.hash] = node
-	b.index.Unlock()
-
-	// Disconnect it from the parent node when the function returns when
-	// running in dry run mode.
-	if dryRun {
-		defer func() {
-			b.index.Lock()
-			delete(b.index.index, node.hash)
-			b.index.Unlock()
-		}()
 	}
 
 	// We're extending (or creating) a side chain, but the cumulative

@@ -224,6 +224,7 @@ type serverPeer struct {
 	relayMtx       sync.Mutex
 	disableRelayTx bool
 	sentAddrs      bool
+	isWhitelisted  bool
 	filter         *bloom.Filter
 	knownAddresses map[string]struct{}
 	banScore       connmgr.DynamicBanScore
@@ -316,6 +317,11 @@ func (sp *serverPeer) addBanScore(persistent, transient uint32, reason string) {
 	if cfg.DisableBanning {
 		return
 	}
+	if sp.isWhitelisted {
+		peerLog.Debugf("Misbehaving whitelisted peer %s: %s", sp, reason)
+		return
+	}
+
 	warnThreshold := cfg.BanThreshold >> 1
 	if transient == 0 && persistent == 0 {
 		// The score is not being increased, but a warning message is still
@@ -1727,6 +1733,7 @@ func newPeerConfig(sp *serverPeer) *peer.Config {
 // for disconnection.
 func (s *server) inboundPeerConnected(conn net.Conn) {
 	sp := newServerPeer(s, false)
+	sp.isWhitelisted = isWhitelisted(conn.RemoteAddr())
 	sp.Peer = peer.NewInboundPeer(newPeerConfig(sp))
 	sp.AssociateConnection(conn)
 	go s.peerDoneHandler(sp)
@@ -1746,6 +1753,7 @@ func (s *server) outboundPeerConnected(c *connmgr.ConnReq, conn net.Conn) {
 	}
 	sp.Peer = p
 	sp.connReq = c
+	sp.isWhitelisted = isWhitelisted(conn.RemoteAddr())
 	sp.AssociateConnection(conn)
 	go s.peerDoneHandler(sp)
 	s.addrManager.Attempt(sp.NA())
@@ -2742,6 +2750,32 @@ func dynamicTickDuration(remaining time.Duration) time.Duration {
 		return time.Minute * 15
 	}
 	return time.Hour
+}
+
+// isWhitelisted returns whether the IP address is included in the whitelisted
+// networks and IPs.
+func isWhitelisted(addr net.Addr) bool {
+	if len(cfg.whitelists) == 0 {
+		return false
+	}
+
+	host, _, err := net.SplitHostPort(addr.String())
+	if err != nil {
+		srvrLog.Warnf("Unable to SplitHostPort on '%s': %v", addr, err)
+		return false
+	}
+	ip := net.ParseIP(host)
+	if ip == nil {
+		srvrLog.Warnf("Unable to parse IP '%s'", addr)
+		return false
+	}
+
+	for _, ipnet := range cfg.whitelists {
+		if ipnet.Contains(ip) {
+			return true
+		}
+	}
+	return false
 }
 
 // checkpointSorter implements sort.Interface to allow a slice of checkpoints to
